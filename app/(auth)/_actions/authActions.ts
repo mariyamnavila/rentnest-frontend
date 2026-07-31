@@ -82,7 +82,7 @@ export async function loginAction(
   }
 
   if (decodedToken.role === "TENANT") {
-    redirect("/dashboard")
+    redirect("/tenant-dashboard")
   } else if (decodedToken.role === "LANDLORD") {
     redirect("/author-dashboard")
   } else if (decodedToken.role === "ADMIN") {

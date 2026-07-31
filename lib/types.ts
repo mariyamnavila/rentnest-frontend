@@ -17,7 +17,7 @@ export type IUser = {
     email: string;
     role: UserRole;
     status: UserStatus;
-    profilePhoto?: string | null;
+    profileImage?: string | null;
     createdAt?: string;
     updatedAt?: string;
   };

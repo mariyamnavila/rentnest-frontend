@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/shared/navbar';
 import { Footer } from '@/components/shared/footer';
+import { getMe } from '@/service/getMe';
 
 export default async function PublicLayout({
   children,
@@ -7,7 +8,7 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   // Mock/server fetch user state placeholder until auth service is connected
-  const user = null;
+  const user = await getMe();
 
   return (
     <div className="flex min-h-screen flex-col">

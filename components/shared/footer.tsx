@@ -73,12 +73,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/admin" className="hover:text-[#CFA190] transition-colors">
+                <Link href="/admin-dashboard" className="hover:text-[#CFA190] transition-colors">
                   Admin Moderation
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/tenant" className="hover:text-[#CFA190] transition-colors">
+                <Link href="/tenant-dashboard" className="hover:text-[#CFA190] transition-colors">
                   Tenant Dashboard
                 </Link>
               </li>

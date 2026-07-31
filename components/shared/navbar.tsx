@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { User, LogOut, LayoutDashboard, Menu, X, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { IUser } from '@/lib/types';
+import { NavbarProps } from '@/lib/types';
 import Image from 'next/image';
+import { logout } from '@/service/logOut';
+
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -16,7 +18,7 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export function Navbar({ user }: { user?: IUser | null }) {
+export function Navbar({ user }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
@@ -27,22 +29,19 @@ export function Navbar({ user }: { user?: IUser | null }) {
   const role = user?.data?.role || "TENANT";
 
   const getDashboardPath = () => {
-    if (role === "ADMIN") return "/dashboard/admin";
-    if (role === "LANDLORD") return "/dashboard/landlord";
-    return "/dashboard/tenant";
+    if (role === "ADMIN") return "/admin-dashboard";
+    if (role === "LANDLORD") return "/landlord-dashboard";
+    return "/tenant-dashboard";
   };
 
   const handleLogout = async () => {
-    const toastId = toast.loading("Logging out...");
     try {
-      document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      toast.success("Logged out successfully", { id: toastId });
+      await logout();
+      toast.success("User Logged Out Successfully");
       router.push("/login");
-      router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
-      toast.error("Logout failed. Please try again.", { id: toastId });
+      toast.error("Logout failed. Please try again.");
     }
   };
 
@@ -59,7 +58,7 @@ export function Navbar({ user }: { user?: IUser | null }) {
       {/* Main Header Container */}
       <div className="bg-white dark:bg-[#1a1d24] border-b border-[#e4e4e4] dark:border-[#2a2e39]">
         <div className="container mx-auto px-4 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
-          
+
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -105,7 +104,17 @@ export function Navbar({ user }: { user?: IUser | null }) {
                   className="flex items-center gap-2 rounded-full border border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] p-1.5 sm:pr-3 hover:bg-[#fff5f5] focus:outline-none transition-all cursor-pointer shadow-xs"
                 >
                   <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full bg-[#CFA190] text-white font-bold items-center justify-center text-xs shadow-inner">
-                    {initials}
+                    {user?.data?.profileImage ? (
+                      <Image
+                        src={user.data.profileImage}
+                        alt={name}
+                        width={32}
+                        height={32}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      initials
+                    )}
                   </div>
                   <span className="text-xs sm:text-sm font-bold text-[#222222] dark:text-slate-100 hidden sm:inline-block max-w-25 md:max-w-35 truncate">
                     {name}
