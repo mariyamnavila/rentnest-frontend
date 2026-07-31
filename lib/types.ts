@@ -8,6 +8,15 @@ export type PaymentMethod = "STRIPE" | "SSLCOMMERZ";
 
 export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED";
 
+export interface IRegisterUser {
+  name: string;
+  email: string;
+  password: string;
+  role: "TENANT" | "LANDLORD";
+  phone?: string;
+  profileImage?: string;
+}
+
 export type IUser = {
   success: boolean;
   message: string;
@@ -18,6 +27,7 @@ export type IUser = {
     role: UserRole;
     status: UserStatus;
     profileImage?: string | null;
+    phone?: string | null;
     createdAt?: string;
     updatedAt?: string;
   };

@@ -147,7 +147,7 @@ export function Navbar({ user }: NavbarProps) {
                         <span>Dashboard</span>
                       </Link>
                       <Link
-                        href="/profile"
+                        href={`${getDashboardPath()}/profile`}
                         className="flex items-center gap-2.5 px-3 py-2 text-xs sm:text-sm font-bold rounded-lg hover:bg-[#f7f7f7] dark:hover:bg-[#232733] text-[#222222] dark:text-slate-200 transition-colors cursor-pointer"
                       >
                         <User className="size-4 text-gray-500" />

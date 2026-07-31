@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
-import { LoginForm } from '../_components/LoginForm';
+import { RegisterForm } from '../_components/RegisterForm';
 import { Loader2 } from 'lucide-react';
 
 export const metadata = {
-  title: 'Login - RentNest',
-  description: 'Access your RentNest tenant, landlord, or admin account.',
+  title: 'Register - RentNest',
+  description: 'Create your RentNest tenant or landlord account.',
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <Suspense
       fallback={
@@ -16,7 +16,7 @@ export default function LoginPage() {
         </div>
       }
     >
-      <LoginForm />
+      <RegisterForm />
     </Suspense>
   );
 }
