@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Search, MapPin, Building2 } from 'lucide-react';
+import { Search, Building2, ShieldCheck, PlusCircle, Home } from 'lucide-react';
 import Link from 'next/link';
 
 const heroImages = [
@@ -31,87 +31,77 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative py-10 lg:py-16 bg-linear-to-b from-slate-50 via-white to-slate-50 dark:from-[#14171d] dark:via-[#1a1d24] dark:to-[#14171d] overflow-hidden">
+    <section className="relative py-10 lg:py-16 bg-linear-to-b from-slate-50 via-white to-slate-50 dark:from-[#14171d] dark:via-[#1a1d24] dark:to-[#14171d] overflow-hidden font-sans">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Left Column: Heading & Search */}
+
+          {/* Left Column: Multi-Role Heading & Actions */}
           <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
               <Building2 className="size-3.5" />
-              <span>Premium Property Rentals</span>
+              <span>All-In-One Rental Marketplace</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#222222] dark:text-white tracking-tight leading-tight uppercase font-sans">
-              FIND YOUR <span className="text-[#CFA190]">DREAM HOME</span> WITH EASE
+              FIND, LIST & MANAGE <span className="text-[#CFA190]">RENTALS</span> WITH EASE
             </h1>
 
             <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
-              Discover verified rental properties, luxury apartments, and cozy family homes tailored to your lifestyle. Simple, secure, and hassle-free.
+              Whether you are a tenant searching for a dream home, a landlord managing property listings and requests, or an administrator overseeing platform health — RentNest connects everyone effortlessly.
             </p>
 
-            {/* Quick Search Widget */}
-            {/* <div className="p-3 bg-white dark:bg-[#1a1d24] rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl max-w-lg mx-auto lg:mx-0 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-50 dark:bg-[#232733] border border-gray-200 dark:border-slate-700">
-                  <MapPin className="size-4 text-[#CFA190] shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Location / City..."
-                    className="w-full text-xs font-semibold bg-transparent focus:outline-none text-[#222222] dark:text-white placeholder:text-gray-400"
-                  />
-                </div>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-50 dark:bg-[#232733] border border-gray-200 dark:border-slate-700">
-                  <Building2 className="size-4 text-[#CFA190] shrink-0" />
-                  <select className="w-full text-xs font-semibold bg-transparent focus:outline-none text-[#222222] dark:text-white">
-                    <option value="">All Property Types</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="house">House</option>
-                    <option value="studio">Studio</option>
-                  </select>
-                </div>
-              </div>
-
+            {/* Direct Multi-Role CTAs */}
+            <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Link href="/properties">
-                <Button className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl gap-2 py-5 cursor-pointer shadow-md">
-                  <Search className="size-4" />
-                  <span>Search Available Rentals</span>
+                <Button className="w-full sm:w-auto bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl px-7 py-6 text-sm sm:text-base gap-2 cursor-pointer shadow-lg transition-transform hover:-translate-y-0.5">
+                  <Search className="size-5" />
+                  <span>Browse Rentals</span>
                 </Button>
               </Link>
-            </div> */}
-          
 
-          {/* Direct CTA Alternate Layout */}
+              <Link href="/auth/register?role=LANDLORD">
+                <Button variant="outline" className="w-full sm:w-auto rounded-xl px-7 py-6 text-sm sm:text-base font-bold border-[#CFA190] text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] gap-2">
+                  <PlusCircle className="size-5" />
+                  <span>List Your Property</span>
+                </Button>
+              </Link>
+            </div>
 
-<div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-  <Link href="/properties">
-    <Button className="bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl px-8 py-6 text-base gap-2 cursor-pointer shadow-lg transition-transform hover:-translate-y-0.5">
-      <Search className="size-5" />
-      <span>Explore Properties</span>
-    </Button>
-  </Link>
-  
-  <Link href="/about">
-    <Button variant="outline" className="rounded-xl px-8 py-6 text-base font-semibold border-gray-300 dark:border-slate-700">
-      Learn More
-    </Button>
-  </Link>
-</div>
-</div>
+            {/* Role Feature Badges */}
+            {/* Role Feature Badges */}
+            <div className="pt-4 border-t border-gray-200 dark:border-slate-800/80 grid grid-cols-3 gap-2 text-center max-w-md mx-auto lg:mx-0">
+              <div className="p-2 rounded-xl bg-white dark:bg-[#1a1d24] border border-gray-100 dark:border-slate-800 shadow-xs">
+                <Home className="size-4 text-[#CFA190] mx-auto mb-1" />
+                <span className="text-[11px] font-extrabold text-[#222222] dark:text-slate-200 block uppercase">Tenants</span>
+                <span className="text-[9px] text-gray-500 block">Find & Rent</span>
+              </div>
+
+              <div className="p-2 rounded-xl bg-white dark:bg-[#1a1d24] border border-gray-100 dark:border-slate-800 shadow-xs">
+                <Building2 className="size-4 text-[#CFA190] mx-auto mb-1" />
+                <span className="text-[11px] font-extrabold text-[#222222] dark:text-slate-200 block uppercase">Landlords</span>
+                <span className="text-[9px] text-gray-500 block">List & Manage</span>
+              </div>
+
+              <div className="p-2 rounded-xl bg-white dark:bg-[#1a1d24] border border-gray-100 dark:border-slate-800 shadow-xs">
+                <ShieldCheck className="size-4 text-[#CFA190] mx-auto mb-1" />
+                <span className="text-[11px] font-extrabold text-[#222222] dark:text-slate-200 block uppercase">Verified</span>
+                <span className="text-[9px] text-gray-500 block">Secure Leases</span>
+              </div>
+            </div>
+          </div>
 
           {/* Right Column: Square Room Image Showcase */}
           <div className="lg:col-span-6 flex justify-center">
             <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#2a2e39] group">
-              
+
               {/* Image Slideshow Stack */}
               {heroImages.map((img, index) => {
                 const isActive = index === currentImageIndex;
                 return (
                   <div
                     key={img.url}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                      isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                    }`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                      }`}
                   >
                     <Image
                       unoptimized
@@ -119,9 +109,8 @@ export function HeroSection() {
                       alt={img.title}
                       fill
                       priority={index === 0}
-                      className={`object-cover transition-transform duration-5000 ease-out ${
-                        isActive ? 'scale-110' : 'scale-100'
-                      }`}
+                      className={`object-cover transition-transform duration-5000 ease-out ${isActive ? 'scale-110' : 'scale-100'
+                        }`}
                     />
                   </div>
                 );
@@ -154,11 +143,10 @@ export function HeroSection() {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === currentImageIndex
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${idx === currentImageIndex
                         ? 'w-6 bg-[#CFA190]'
                         : 'w-2 bg-white/60 hover:bg-white'
-                    }`}
+                      }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
