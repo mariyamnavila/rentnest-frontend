@@ -63,12 +63,12 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/auth/register?role=TENANT" className="hover:text-[#CFA190] transition-colors">
+                <Link href="/register?role=TENANT" className="hover:text-[#CFA190] transition-colors">
                   Tenant Registration
                 </Link>
               </li>
               <li>
-                <Link href="/auth/register?role=LANDLORD" className="hover:text-[#CFA190] transition-colors">
+                <Link href="/register?role=LANDLORD" className="hover:text-[#CFA190] transition-colors">
                   Landlord Portal
                 </Link>
               </li>
@@ -98,10 +98,10 @@ export function Footer() {
                 <Link href="/properties" className="hover:text-[#CFA190] transition-colors">Browse Rentals</Link>
               </li>
               <li>
-                <Link href="/auth/login" className="hover:text-[#CFA190] transition-colors">Sign In</Link>
+                <Link href="/login" className="hover:text-[#CFA190] transition-colors">Sign In</Link>
               </li>
               <li>
-                <Link href="/auth/register" className="hover:text-[#CFA190] transition-colors">Create Account</Link>
+                <Link href="/register" className="hover:text-[#CFA190] transition-colors">Create Account</Link>
               </li>
             </ul>
           </div>

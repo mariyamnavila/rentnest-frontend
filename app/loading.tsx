@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Loading() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 bg-background font-sans">
+    <div className="flex-1 min-h-[calc(100vh-160px)] flex flex-col items-center justify-center p-4 bg-background font-sans">
       <div className="flex flex-col items-center space-y-4 text-center">
         
         {/* Animated Branded Logo Container */}

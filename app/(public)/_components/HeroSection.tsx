@@ -59,7 +59,7 @@ export function HeroSection() {
                 </Button>
               </Link>
 
-              <Link href="/auth/register?role=LANDLORD">
+              <Link href="/register?role=LANDLORD">
                 <Button variant="outline" className="w-full sm:w-auto rounded-xl px-7 py-6 text-sm sm:text-base font-bold border-[#CFA190] text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] gap-2">
                   <PlusCircle className="size-5" />
                   <span>List Your Property</span>

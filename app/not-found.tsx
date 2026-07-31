@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Search, Home, ArrowLeft } from 'lucide-react';
+import { Search, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-[75vh] flex flex-col items-center justify-center p-6 bg-background text-foreground font-sans">
+    <div className="flex-1 min-h-[calc(100vh-160px)] flex flex-col items-center justify-center p-6 bg-background text-foreground font-sans">
       <div className="max-w-md w-full text-center space-y-6 bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] p-8 sm:p-10 rounded-3xl shadow-xl">
         
         {/* Big 404 Number Badge */}

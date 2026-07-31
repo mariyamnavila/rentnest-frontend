@@ -38,7 +38,7 @@ export function Navbar({ user }: { user?: IUser | null }) {
       document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
       document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
       toast.success("Logged out successfully", { id: toastId });
-      router.push("/auth/login");
+      router.push("/login");
       router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
@@ -161,12 +161,12 @@ export function Navbar({ user }: { user?: IUser | null }) {
             ) : (
               /* Hide top navbar buttons on mobile (< lg), show only in drawer on small screens */
               <div className="hidden lg:flex items-center gap-2">
-                <Link href="/auth/login">
+                <Link href="/login">
                   <Button variant="ghost" size="sm" className="font-bold text-sm text-[#222222] dark:text-slate-200 hover:text-[#CFA190] px-3">
                     Log in
                   </Button>
                 </Link>
-                <Link href="/auth/register">
+                <Link href="/register">
                   <Button size="sm" className="font-bold text-sm bg-[#CFA190] hover:bg-[#C08E82] text-white shadow-xs rounded-lg px-5 cursor-pointer">
                     Sign Up
                   </Button>
@@ -237,12 +237,12 @@ export function Navbar({ user }: { user?: IUser | null }) {
               </div>
             ) : (
               <div className="pt-3 border-t border-[#e4e4e4] dark:border-[#2e3440] grid grid-cols-2 gap-2">
-                <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="outline" className="w-full justify-center text-xs sm:text-sm font-bold">
                     Log in
                   </Button>
                 </Link>
-                <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
                   <Button className="w-full justify-center text-xs sm:text-sm font-bold bg-[#CFA190] text-white hover:bg-[#C08E82]">
                     Sign Up
                   </Button>

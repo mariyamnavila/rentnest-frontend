@@ -178,7 +178,7 @@ export function RoleOverviewSection() {
               </div>
 
               <div className="text-center pt-2">
-                <Link href="/auth/register">
+                <Link href="/register">
                   <Button className="bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl text-xs sm:text-sm px-8 py-5 gap-2 cursor-pointer shadow-md">
                     <PlusCircle className="size-4" />
                     <span>Submit Property Listing</span>
