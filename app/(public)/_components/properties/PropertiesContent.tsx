@@ -24,8 +24,8 @@ export function PropertiesContent({
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar Filters (Desktop) */}
-      <aside className="hidden lg:block w-64 shrink-0">
-        <div className="sticky top-24 bg-white dark:bg-[#1a1d24] rounded-2xl border border-[#e4e4e4] dark:border-[#2e3440] p-5">
+      <aside className="hidden lg:block w-72 shrink-0">
+        <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto bg-white dark:bg-[#1a1d24] rounded-2xl border border-[#e4e4e4] dark:border-[#2e3440] p-5">
           <PropertyFilters categories={categories} />
         </div>
       </aside>

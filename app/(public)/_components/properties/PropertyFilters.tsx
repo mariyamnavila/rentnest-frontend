@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { MapPin, DollarSign, Tag, SlidersHorizontal, Search } from 'lucide-react';
+import { MapPin, DollarSign, Tag, SlidersHorizontal, Search, Wifi, Car, Waves, Wind, ShieldCheck, Dumbbell, Trees, ShoppingBag } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import type { ICategory } from '@/lib/types';
@@ -10,6 +10,16 @@ import type { ICategory } from '@/lib/types';
 type PropertyFiltersProps = {
   categories: ICategory[];
 };
+
+const amenityOptions = [
+  { label: 'Wi-Fi', value: 'Wi-Fi', icon: Wifi },
+  { label: 'Parking', value: 'Parking', icon: Car },
+  { label: 'Pool', value: 'Pool', icon: Waves },
+  { label: 'AC', value: 'AC', icon: Wind },
+  { label: 'Gym', value: 'Gym', icon: Dumbbell },
+  { label: 'Pet Friendly', value: 'Pet Friendly', icon: Trees },
+  { label: 'Shopping', value: 'Shopping', icon: ShoppingBag },
+];
 
 export function PropertyFilters({ categories }: PropertyFiltersProps) {
   const router = useRouter();
@@ -20,6 +30,17 @@ export function PropertyFilters({ categories }: PropertyFiltersProps) {
   const activeLocation = searchParams.get('location') ?? '';
   const activeMinPrice = searchParams.get('minPrice') ?? '';
   const activeMaxPrice = searchParams.get('maxPrice') ?? '';
+
+  const activeAmenities: string[] = (() => {
+    try {
+      const raw = searchParams.get('amenities');
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [parsed];
+    } catch {
+      return [];
+    }
+  })();
 
   const [minPriceInput, setMinPriceInput] = useState(activeMinPrice);
   const [maxPriceInput, setMaxPriceInput] = useState(activeMaxPrice);
@@ -54,8 +75,15 @@ export function PropertyFilters({ categories }: PropertyFiltersProps) {
     router.replace(pathname);
   };
 
+  const toggleAmenity = (amenity: string) => {
+    const next = activeAmenities.includes(amenity)
+      ? activeAmenities.filter((a) => a !== amenity)
+      : [...activeAmenities, amenity];
+    updateParam('amenities', next.length > 0 ? JSON.stringify(next) : null);
+  };
+
   const hasActiveFilters =
-    activeCategoryId || activeLocation || activeMinPrice || activeMaxPrice;
+    activeCategoryId || activeLocation || activeMinPrice || activeMaxPrice || activeAmenities.length > 0;
 
   return (
     <div className="space-y-6">
@@ -170,6 +198,33 @@ export function PropertyFilters({ categories }: PropertyFiltersProps) {
           >
             <Search className="size-4" />
           </Button>
+        </div>
+      </div>
+
+      {/* Amenities Filter */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#222222] dark:text-slate-200">
+          <ShieldCheck className="size-3.5 text-[#CFA190]" />
+          Amenities
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {amenityOptions.map((option) => {
+            const isActive = activeAmenities.includes(option.value);
+            return (
+              <button
+                key={option.value}
+                onClick={() => toggleAmenity(option.value)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all cursor-pointer ${
+                  isActive
+                    ? 'border-[#CFA190] bg-[#fff5f5] text-[#CFA190] dark:bg-[#232733]'
+                    : 'border-[#e4e4e4] dark:border-[#2e3440] bg-gray-50 dark:bg-[#1a1d24] text-gray-600 dark:text-slate-300 hover:border-[#CFA190]/50'
+                }`}
+              >
+                <option.icon className="size-3" />
+                {option.label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

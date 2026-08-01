@@ -18,7 +18,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
   const [propertiesResult, categoriesResult] = await Promise.all([
     getProperties({
       page: query.page || '1',
-      limit: query.limit || '12',
+      limit: query.limit || '9',
       searchTerm: query.searchTerm,
       location: query.location,
       minPrice: query.minPrice,
