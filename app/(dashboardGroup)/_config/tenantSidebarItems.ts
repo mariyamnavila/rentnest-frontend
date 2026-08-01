@@ -1,15 +1,25 @@
 import { ISidebarItem } from '@/lib/types';
-import { ClipboardPen, Home } from 'lucide-react';
+import { ClipboardPen, CreditCard, FileText, Home, LayoutDashboard } from 'lucide-react';
 
 export const TENANT_SIDEBAR_ITEMS: ISidebarItem[] = [
   {
-    label: 'Dashboard',
+    label: 'Overview',
     href: '/tenant-dashboard',
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
-    label: 'My Requests',
+    label: 'My Rental Requests',
     href: '/tenant-dashboard/requests',
-    icon: ClipboardPen,
+    icon: FileText,
+  },
+  {
+    label: 'Payment History',
+    href: '/tenant-dashboard/payments',
+    icon: CreditCard,
+  },
+  {
+    label: 'Explore Rentals',
+    href: '/properties',
+    icon: Home,
   },
 ];

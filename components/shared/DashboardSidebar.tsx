@@ -7,71 +7,39 @@ import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
-  LayoutDashboard,
-  FileText,
-  CreditCard,
-  Building2,
-  Home,
   LogOut,
   Menu,
   X,
   UserCheck,
-  PlusCircle,
-  Users,
-  Layers,
 } from 'lucide-react';
 import type { UserRole } from '@/lib/types';
+import { logout } from '@/service/logOut';
+import { sidebarMenuItems } from '@/app/(dashboardGroup)/_config/sidebarMenuItems';
 
 type DashboardSidebarProps = {
   role?: UserRole;
-  name?: string;
-  email?: string;
+  userName?: string;
+  userEmail?: string;
+  profileImage?: string | null;
 };
 
 export function DashboardSidebar({
   role = 'TENANT',
-  name = 'Tenant User',
-  email = 'user@example.com',
+  userName = 'User Account',
+  userEmail = 'user@rentnest.com',
+  profileImage,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Role-based navigation links
-  const getNavLinks = () => {
-    if (role === 'LANDLORD') {
-      return [
-        { label: 'Overview', href: '/landlord-dashboard', icon: LayoutDashboard },
-        { label: 'My Listings', href: '/landlord-dashboard/properties', icon: Building2 },
-        { label: 'Add Property', href: '/landlord-dashboard/properties/new', icon: PlusCircle },
-        { label: 'Tenant Requests', href: '/landlord-dashboard/requests', icon: FileText },
-      ];
-    }
+  // Role-based profile link
+  const profileHref = `/${role.toLowerCase()}-dashboard/profile`;
 
-    if (role === 'ADMIN') {
-      return [
-        { label: 'Overview', href: '/admin-dashboard', icon: LayoutDashboard },
-        { label: 'Manage Users', href: '/admin-dashboard/users', icon: Users },
-        { label: 'All Listings', href: '/admin-dashboard/properties', icon: Building2 },
-        { label: 'Categories', href: '/admin-dashboard/categories', icon: Layers },
-      ];
-    }
-
-    // Default Tenant navigation
-    return [
-      { label: 'Overview', href: '/tenant-dashboard', icon: LayoutDashboard },
-      { label: 'My Rental Requests', href: '/tenant-dashboard/requests', icon: FileText },
-      { label: 'Payment History', href: '/tenant-dashboard/payments', icon: CreditCard },
-      { label: 'Explore Rentals', href: '/properties', icon: Home },
-    ];
-  };
-
-  const navLinks = getNavLinks();
+  // Get navigation items from config
+  const navItems = sidebarMenuItems[role] || sidebarMenuItems.TENANT;
 
   const handleLogout = async () => {
-    // Clear cookies & redirect
-    document.cookie = 'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = 'refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    window.location.href = '/auth/login';
+    await logout();
   };
 
   return (
@@ -132,22 +100,9 @@ export function DashboardSidebar({
             </button>
           </div>
 
-          {/* Role Badge */}
-          {/* <div className="px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <UserCheck className="size-4 text-[#CFA190]" />
-              <span className="text-xs font-black uppercase text-[#222222] dark:text-white">
-                {role === 'LANDLORD' ? 'Landlord Portal' : role === 'ADMIN' ? 'Admin Portal' : 'Tenant Portal'}
-              </span>
-            </div>
-            <Badge className="bg-[#CFA190] text-white text-[9px] font-extrabold px-2 py-0.5 uppercase">
-              {role}
-            </Badge>
-          </div> */}
-
           {/* Nav Links List */}
           <nav className="space-y-1 pt-2">
-            {navLinks.map((link) => {
+            {navItems.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
 
@@ -169,17 +124,35 @@ export function DashboardSidebar({
           </nav>
         </div>
 
-        {/* User Profile Strip at Bottom */}
+        {/* User Profile Strip with Clickable Role-Based Profile Link & Avatar Image Fallback */}
         <div className="p-4 border-t border-[#e4e4e4] dark:border-[#2e3440] space-y-3">
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-9 w-9 rounded-xl bg-[#CFA190] text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-sm">
-              {name[0]?.toUpperCase() || 'U'}
+          <Link
+            href={profileHref}
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 px-2 py-1.5 rounded-2xl hover:bg-[#fff5f5] dark:hover:bg-[#232733] transition-colors group cursor-pointer"
+          >
+            <div className="h-9 w-9 rounded-xl bg-[#CFA190] text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-sm group-hover:scale-105 transition-transform overflow-hidden relative">
+              {profileImage ? (
+                <Image
+                  unoptimized
+                  src={profileImage}
+                  alt={userName}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                userName[0]?.toUpperCase() || 'U'
+              )}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-extrabold text-[#222222] dark:text-white truncate">{name}</p>
-              <p className="text-[10px] text-gray-400 truncate">{email}</p>
+              <p className="text-xs font-extrabold text-[#222222] dark:text-white truncate">
+                {userName}
+              </p>
+              <p className="text-[10px] text-gray-400 truncate">
+                {userEmail}
+              </p>
             </div>
-          </div>
+          </Link>
 
           <Button
             variant="outline"
@@ -187,7 +160,7 @@ export function DashboardSidebar({
             className="w-full rounded-xl border-[#e4e4e4] dark:border-[#2e3440] text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-xs font-bold gap-2 py-4 cursor-pointer"
           >
             <LogOut className="size-4" />
-            <span>Sign Out</span>
+            <span>Log Out</span>
           </Button>
         </div>
       </aside>

@@ -1,9 +1,9 @@
 import { ISidebarItem } from '@/lib/types';
-import { LayoutDashboard, Building2, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, Building2, ClipboardList, PlusCircle, FileText } from 'lucide-react';
 
 export const LANDLORD_SIDEBAR_ITEMS: ISidebarItem[] = [
   {
-    label: 'Dashboard',
+    label: 'Overview',
     href: '/landlord-dashboard',
     icon: LayoutDashboard,
   },
@@ -13,8 +13,13 @@ export const LANDLORD_SIDEBAR_ITEMS: ISidebarItem[] = [
     icon: Building2,
   },
   {
-    label: 'Requests',
+    label: 'Add Property',
+    href: '/landlord-dashboard/properties/new',
+    icon: PlusCircle,
+  },
+  {
+    label: 'Tenant Requests',
     href: '/landlord-dashboard/requests',
-    icon: ClipboardList,
+    icon: FileText,
   },
 ];
