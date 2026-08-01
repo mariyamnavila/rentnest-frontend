@@ -117,7 +117,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           </div>
         </CardHeader>
 
-        <CardContent className="p-6 pt-2 space-y-6">
+        <CardContent className="p-6 pt-2 pb-2 space-y-6">
 
           {/* Lease Timeline Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -198,7 +198,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           {latestPayment && (
             <div className="space-y-2 pt-2">
               <span className="text-xs font-extrabold uppercase text-gray-400">Payment Status</span>
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#f7f7f7] dark:bg-[#232733] border border-[#e4e4e4] dark:border-[#2e3440]">
+              <div className="flex items-center justify-between mt-2 p-4 rounded-2xl bg-[#f7f7f7] dark:bg-[#232733] border border-[#e4e4e4] dark:border-[#2e3440]">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
                     <DollarSign className="size-5" />
@@ -217,7 +217,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 
         {/* Action Footer */}
         {isApproved && !hasCompletedPayment && (
-          <CardFooter className="p-6 pt-0">
+          <CardFooter className="p-6 pt-0 border-t-0">
             <Link href={`/tenant-dashboard/requests/${rental.id}/pay`} className="w-full">
               <Button className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5">
                 <CreditCard className="size-4" />

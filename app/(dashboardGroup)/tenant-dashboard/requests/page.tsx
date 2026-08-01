@@ -170,7 +170,7 @@ export default async function MyRequestsPage() {
               </div>
 
               {/* Mobile Structured Cards View (< 640px) */}
-              <div className="sm:hidden p-4 space-y-3">
+              <div className="sm:hidden space-y-3">
                 {rentals.map((rental) => {
                   const displayImage =
                     rental.property?.images?.[0] ||

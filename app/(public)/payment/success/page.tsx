@@ -28,7 +28,7 @@ export default function PaymentSuccessPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
             href="/tenant-dashboard/requests"
-            className="inline-flex items-center gap-2 bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl px-6 py-3 text-sm cursor-pointer transition-colors gap-2"
+            className="inline-flex items-center gap-2 bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl px-6 py-3 text-sm cursor-pointer transition-colors"
           >
             <ClipboardList className="size-4" />
             <span>View My Requests</span>
