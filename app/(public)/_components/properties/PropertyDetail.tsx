@@ -19,6 +19,7 @@ import {
   Check,
   MessageSquare,
 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 import type { IProperty } from '@/lib/types';
 
 // Import Swiper React components and modules
@@ -35,6 +36,7 @@ type PropertyDetailProps = {
 };
 
 export function PropertyDetail({ property }: PropertyDetailProps) {
+  const { role } = useAuth();
   const [selectedImage, setSelectedImage] = useState(0);
 
   const images =
@@ -129,8 +131,8 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
                 key={idx}
                 onClick={() => setSelectedImage(idx)}
                 className={`relative shrink-0 w-24 h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer shadow-sm ${selectedImage === idx
-                    ? 'border-[#CFA190] scale-105 shadow-md'
-                    : 'border-transparent opacity-70 hover:opacity-100'
+                  ? 'border-[#CFA190] scale-105 shadow-md'
+                  : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
               >
                 <Image
@@ -316,8 +318,8 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
                               <Star
                                 key={i}
                                 className={`size-3 ${i < review.rating
-                                    ? 'fill-amber-400 text-amber-400'
-                                    : 'text-gray-300 dark:text-gray-600'
+                                  ? 'fill-amber-400 text-amber-400'
+                                  : 'text-gray-300 dark:text-gray-600'
                                   }`}
                               />
                             ))}
@@ -375,12 +377,20 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
               </div>
 
               {property.isAvailable ? (
-                <Link href={`/tenant-dashboard/requests/new?propertyId=${property.id}`} className="block">
-                  <Button className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5">
+                role === 'LANDLORD' || role === 'ADMIN' ? (
+                  <Button disabled className="w-full rounded-2xl py-6 font-bold text-sm gap-2 cursor-not-allowed opacity-60 text-black">
                     <Send className="size-4" />
                     <span>Request to Rent</span>
+                    <span className="text-[10px] ml-1">(Tenant Only)</span>
                   </Button>
-                </Link>
+                ) : (
+                  <Link href={`/tenant-dashboard/requests/new?propertyId=${property.id}`} className="block">
+                    <Button className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5">
+                      <Send className="size-4" />
+                      <span>Request to Rent</span>
+                    </Button>
+                  </Link>
+                )
               ) : (
                 <Button disabled className="w-full rounded-2xl py-6 font-bold text-sm">
                   Currently Unavailable

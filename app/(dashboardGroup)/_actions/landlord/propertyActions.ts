@@ -11,6 +11,11 @@ export type CreatePropertyState = {
   propertyId?: string;
 };
 
+export type PropertyActionState = {
+  success: boolean;
+  message: string;
+};
+
 export async function createProperty(
   prevState: CreatePropertyState,
   formData: FormData
@@ -86,5 +91,66 @@ export async function createProperty(
       success: false,
       message: 'Unable to connect to the server.',
     };
+  }
+}
+
+export async function deleteProperty(propertyId: string): Promise<PropertyActionState> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) {
+    return { success: false, message: 'You must be logged in.' };
+  }
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord/properties/${propertyId}`, {
+      method: 'DELETE',
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return { success: false, message: result.message || 'Failed to delete property.' };
+    }
+
+    return { success: true, message: 'Property deleted successfully.' };
+  } catch {
+    return { success: false, message: 'Unable to connect to the server.' };
+  }
+}
+
+export async function togglePropertyAvailability(
+  propertyId: string,
+  isAvailable: boolean
+): Promise<PropertyActionState> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) {
+    return { success: false, message: 'You must be logged in.' };
+  }
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord/properties/${propertyId}/availability`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `accessToken=${accessToken}`,
+      },
+      body: JSON.stringify({ isAvailable }),
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return { success: false, message: result.message || 'Failed to update availability.' };
+    }
+
+    return { success: true, message: `Property marked as ${isAvailable ? 'available' : 'unavailable'}.` };
+  } catch {
+    return { success: false, message: 'Unable to connect to the server.' };
   }
 }

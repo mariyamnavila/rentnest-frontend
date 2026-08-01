@@ -165,7 +165,7 @@ export default async function LandlordDashboardPage() {
                         ${property.price.toLocaleString()}<span className="text-[10px] text-gray-400 font-normal">/mo</span>
                       </p>
                       <div className={`px-2 py-1 rounded-lg text-[10px] font-bold ${property.isAvailable ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600'}`}>
-                        {property.isAvailable ? 'Available' : 'Rented'}
+                        {property.isAvailable ? 'Available' : 'Unavailable'}
                       </div>
                     </div>
                   </Link>
