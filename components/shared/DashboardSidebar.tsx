@@ -27,8 +27,8 @@ export function DashboardSidebar() {
   const router = useRouter();
 
 
-  // Role-based profile link
-  const profileHref = `/${role.toLowerCase()}-dashboard/profile`;
+  // Profile link
+  const profileHref = '/profile';
 
   // Get navigation items from config
   const navItems = sidebarMenuItems[role] || sidebarMenuItems.TENANT;
