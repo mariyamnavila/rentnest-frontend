@@ -130,3 +130,76 @@ export async function getAllRentals(): Promise<{ success: boolean; data: { total
     return { success: false, data: { total: 0, pending: 0, approved: 0, active: 0 } };
   }
 }
+
+export type AdminProperty = {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  amenities: string[];
+  images: string[];
+  isAvailable: boolean;
+  landlordId: string;
+  categoryId: string;
+  category?: { id: string; name: string };
+  landlord?: { id: string; name: string; email: string };
+  reviews?: { id: string; rating: number }[];
+  createdAt?: string;
+};
+
+export type AdminRental = {
+  id: string;
+  propertyId: string;
+  tenantId: string;
+  status: string;
+  startDate: string;
+  endDate: string;
+  message?: string | null;
+  createdAt?: string;
+  tenant?: { id: string; name: string; email: string };
+  property?: { id: string; title: string; price: number; location: string; images: string[]; landlord?: { name: string } };
+  payments?: { id: string; amount: number; status: string }[];
+};
+
+export async function getAdminProperties(): Promise<{ success: boolean; data: AdminProperty[] }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) return { success: false, data: [] };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/properties`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: [] };
+
+    return { success: true, data: result.data || [] };
+  } catch {
+    return { success: false, data: [] };
+  }
+}
+
+export async function getAdminRentals(): Promise<{ success: boolean; data: AdminRental[] }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) return { success: false, data: [] };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/rentals`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: [] };
+
+    return { success: true, data: result.data || [] };
+  } catch {
+    return { success: false, data: [] };
+  }
+}
