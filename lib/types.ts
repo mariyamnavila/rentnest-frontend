@@ -8,6 +8,12 @@ export type PaymentMethod = "STRIPE" | "SSLCOMMERZ";
 
 export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED";
 
+export type ISidebarItem = {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
 export interface IRegisterUser {
   name: string;
   email: string;

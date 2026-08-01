@@ -98,3 +98,47 @@
     @apply bg-background text-foreground antialiased font-sans;
   }
 }
+
+/* Custom Swiper Theme Styling */
+.swiper-pagination-bullet-active {
+  background-color: #CFA190 !important;
+  width: 24px !important;
+  border-radius: 100px !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: #9ca3af;
+  opacity: 0.6;
+}
+
+/* Hide Swiper Navigation Chevrons on Mobile (< 640px) */
+@media (max-width: 639px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}
+
+/* Style Swiper Navigation Chevrons on Desktop (>= 640px) */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #CFA190 !important;
+  width: 36px !important;
+  height: 36px !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(207, 161, 144, 0.3);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+.dark .swiper-button-next,
+.dark .swiper-button-prev {
+  background-color: rgba(26, 29, 36, 0.9);
+  border-color: rgba(46, 52, 64, 1);
+}

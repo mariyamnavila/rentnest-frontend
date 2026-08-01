@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,11 +17,18 @@ import {
   Sparkles,
   UserCheck,
   Check,
-  ChevronLeft,
-  ChevronRight,
   MessageSquare,
 } from 'lucide-react';
 import type { IProperty } from '@/lib/types';
+
+// Import Swiper React components and modules
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 type PropertyDetailProps = {
   property: IProperty;
@@ -29,7 +36,6 @@ type PropertyDetailProps = {
 
 export function PropertyDetail({ property }: PropertyDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   const images =
     property.images?.length > 0
@@ -43,24 +49,6 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
     reviews.length > 0
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
-
-  // Carousel Next & Previous handlers
-  const handlePrevReview = () => {
-    setCurrentReviewIndex((prev) => (prev === 0 ? Math.max(0, reviews.length - 1) : prev - 1));
-  };
-
-  const handleNextReview = () => {
-    setCurrentReviewIndex((prev) => (prev >= reviews.length - 1 ? 0 : prev + 1));
-  };
-
-  // Auto-advance review carousel if there are multiple reviews
-  useEffect(() => {
-    if (reviews.length <= 1) return;
-    const interval = setInterval(() => {
-      handleNextReview();
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [reviews.length, currentReviewIndex]);
 
   return (
     <div className="container mx-auto px-4 max-w-7xl py-8 font-sans">
@@ -259,7 +247,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
             </div>
           )}
 
-          {/* RESPONSIVE REVIEWS CAROUSEL SECTION */}
+          {/* SWIPER JS REVIEWS CAROUSEL SECTION */}
           <div className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] p-6 sm:p-8 shadow-sm space-y-6">
             <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-4">
               <div className="flex items-center gap-2">
@@ -269,98 +257,80 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
                 </h2>
               </div>
 
-              {/* Header Rating & Carousel Navigation Buttons */}
-              <div className="flex items-center gap-3">
-                {avgRating > 0 && (
-                  <div className="flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-900/40">
-                    <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-black text-[#222222] dark:text-white">
-                      {avgRating.toFixed(1)}
-                    </span>
-                    <span className="text-gray-400 text-[10px]">({reviews.length})</span>
-                  </div>
-                )}
-
-                {reviews.length > 1 && (
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={handlePrevReview}
-                      className="p-2 rounded-xl bg-[#f7f7f7] dark:bg-[#232733] hover:bg-[#CFA190] hover:text-white text-[#222222] dark:text-white transition-colors cursor-pointer border border-[#e4e4e4] dark:border-[#2e3440]"
-                      aria-label="Previous review"
-                    >
-                      <ChevronLeft className="size-4" />
-                    </button>
-                    <button
-                      onClick={handleNextReview}
-                      className="p-2 rounded-xl bg-[#f7f7f7] dark:bg-[#232733] hover:bg-[#CFA190] hover:text-white text-[#222222] dark:text-white transition-colors cursor-pointer border border-[#e4e4e4] dark:border-[#2e3440]"
-                      aria-label="Next review"
-                    >
-                      <ChevronRight className="size-4" />
-                    </button>
-                  </div>
-                )}
-              </div>
+              {avgRating > 0 && (
+                <div className="flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-900/40">
+                  <Star className="size-3.5 fill-amber-400 text-amber-400" />
+                  <span className="text-xs font-black text-[#222222] dark:text-white">
+                    {avgRating.toFixed(1)}
+                  </span>
+                  <span className="text-gray-400 text-[10px]">({reviews.length} reviews)</span>
+                </div>
+              )}
             </div>
 
             {reviews.length > 0 ? (
-              <div className="relative overflow-hidden">
-                {/* Active Review Slide */}
-                <div className="p-6 rounded-2xl bg-[#f7f7f7] dark:bg-[#232733] border border-[#e4e4e4] dark:border-[#2e3440] space-y-4 transition-all duration-500 animate-in fade-in">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-2xl bg-[#CFA190] text-white flex items-center justify-center text-sm font-black shadow-sm">
-                        {reviews[currentReviewIndex].tenant?.name?.[0]?.toUpperCase() || 'T'}
+              <div className="relative">
+                <Swiper
+                  modules={[Autoplay, Pagination, Navigation]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: Math.min(2, reviews.length),
+                    },
+                  }}
+                  autoplay={{
+                    delay: 4500,
+                    disableOnInteraction: false,
+                  }}
+                  pagination={{ clickable: true }}
+                  navigation
+                  className="w-full pb-10 rounded-2xl cursor-grab active:cursor-grabbing"
+                >
+                  {reviews.map((review) => (
+                    <SwiperSlide key={review.id} className="h-auto">
+                      <div className="p-6 rounded-2xl bg-[#f7f7f7] dark:bg-[#232733] border border-[#e4e4e4] dark:border-[#2e3440] space-y-4 h-full flex flex-col justify-between">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="h-10 w-10 rounded-2xl bg-[#CFA190] text-white flex items-center justify-center text-sm font-black shrink-0 shadow-sm">
+                              {review.tenant?.name?.[0]?.toUpperCase() || 'T'}
+                            </div>
+                            <div className="min-w-0">
+                              <span className="text-sm font-extrabold text-[#222222] dark:text-white block truncate">
+                                {review.tenant?.name || 'Verified Tenant'}
+                              </span>
+                              {review.createdAt && (
+                                <span className="text-[10px] text-gray-400 block truncate">
+                                  {new Date(review.createdAt).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                  })}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-0.5 bg-white dark:bg-[#1a1d24] px-2 py-1 rounded-xl border border-[#e4e4e4] dark:border-[#2e3440] shrink-0">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`size-3 ${i < review.rating
+                                    ? 'fill-amber-400 text-amber-400'
+                                    : 'text-gray-300 dark:text-gray-600'
+                                  }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed italic line-clamp-4">
+                          &ldquo;{review.comment}&rdquo;
+                        </p>
                       </div>
-                      <div>
-                        <span className="text-sm font-extrabold text-[#222222] dark:text-white block">
-                          {reviews[currentReviewIndex].tenant?.name || 'Verified Tenant'}
-                        </span>
-                        {reviews[currentReviewIndex].createdAt && (
-                          <span className="text-[10px] text-gray-400 block">
-                            {new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'short',
-                              day: 'numeric',
-                            })}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-0.5 bg-white dark:bg-[#1a1d24] px-2.5 py-1 rounded-xl border border-[#e4e4e4] dark:border-[#2e3440]">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`size-3.5 ${i < reviews[currentReviewIndex].rating
-                              ? 'fill-amber-400 text-amber-400'
-                              : 'text-gray-300 dark:text-gray-600'
-                            }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed italic">
-                    &ldquo;{reviews[currentReviewIndex].comment}&rdquo;
-                  </p>
-                </div>
-
-                {/* Carousel Pagination Dots */}
-                {reviews.length > 1 && (
-                  <div className="flex justify-center gap-1.5 pt-4">
-                    {reviews.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setCurrentReviewIndex(idx)}
-                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${idx === currentReviewIndex
-                            ? 'w-6 bg-[#CFA190]'
-                            : 'w-2 bg-gray-300 dark:bg-slate-700 hover:bg-[#CFA190]'
-                          }`}
-                        aria-label={`Go to review ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             ) : (
               <div className="text-center py-8 space-y-2">
