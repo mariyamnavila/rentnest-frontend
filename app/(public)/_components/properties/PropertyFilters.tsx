@@ -61,8 +61,24 @@ export function PropertyFilters({ categories }: PropertyFiltersProps) {
   };
 
   const applyPriceRange = () => {
-    updateParam('minPrice', minPriceInput.trim() || null);
-    updateParam('maxPrice', maxPriceInput.trim() || null);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (minPriceInput.trim()) {
+      params.set("minPrice", minPriceInput.trim());
+    } else {
+      params.delete("minPrice");
+    }
+
+    if (maxPriceInput.trim()) {
+      params.set("maxPrice", maxPriceInput.trim());
+    } else {
+      params.delete("maxPrice");
+    }
+
+    params.delete("page");
+
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname);
   };
 
   const handlePriceKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -214,11 +230,10 @@ export function PropertyFilters({ categories }: PropertyFiltersProps) {
               <button
                 key={option.value}
                 onClick={() => toggleAmenity(option.value)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all cursor-pointer ${
-                  isActive
-                    ? 'border-[#CFA190] bg-[#fff5f5] text-[#CFA190] dark:bg-[#232733]'
-                    : 'border-[#e4e4e4] dark:border-[#2e3440] bg-gray-50 dark:bg-[#1a1d24] text-gray-600 dark:text-slate-300 hover:border-[#CFA190]/50'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all cursor-pointer ${isActive
+                  ? 'border-[#CFA190] bg-[#fff5f5] text-[#CFA190] dark:bg-[#232733]'
+                  : 'border-[#e4e4e4] dark:border-[#2e3440] bg-gray-50 dark:bg-[#1a1d24] text-gray-600 dark:text-slate-300 hover:border-[#CFA190]/50'
+                  }`}
               >
                 <option.icon className="size-3" />
                 {option.label}

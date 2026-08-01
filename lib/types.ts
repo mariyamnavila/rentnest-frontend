@@ -66,7 +66,6 @@ export type IProperty = {
     phone?: string;
   };
   reviews?: IReview[];
-  // avgRating?: number;
   createdAt?: string;
   updatedAt?: string;
 };

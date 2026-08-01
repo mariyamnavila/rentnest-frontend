@@ -34,6 +34,12 @@ export type CategoryResponse = {
   data: ICategory[];
 };
 
+export type SinglePropertyResponse = {
+  success: boolean;
+  message: string;
+  data: IProperty | null;
+};
+
 export async function getProperties(query: PropertyQuery): Promise<PropertyResponse> {
   const params = new URLSearchParams();
 
@@ -107,6 +113,37 @@ export async function getCategories(): Promise<CategoryResponse> {
       success: false,
       message: 'Unable to connect to the server.',
       data: [],
+    };
+  }
+}
+
+export async function getPropertyById(id: string): Promise<SinglePropertyResponse> {
+  try {
+    const res = await fetch(
+      `${process.env.BACKEND_API_URL}/api/properties/${id}`,
+      { cache: 'no-store' }
+    );
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || 'Property not found.',
+        data: null,
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || 'Property fetched successfully.',
+      data: result.data || null,
+    };
+  } catch {
+    return {
+      success: false,
+      message: 'Unable to connect to the server.',
+      data: null,
     };
   }
 }
