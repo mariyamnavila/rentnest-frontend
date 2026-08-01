@@ -1,5 +1,5 @@
 import { ISidebarItem } from '@/lib/types';
-import { LayoutDashboard, Users, Building2, ClipboardList, Layers } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, Layers } from 'lucide-react';
 
 export const ADMIN_SIDEBAR_ITEMS: ISidebarItem[] = [
   {

@@ -1,5 +1,5 @@
 import { ISidebarItem } from '@/lib/types';
-import { ClipboardPen, CreditCard, FileText, Home, LayoutDashboard } from 'lucide-react';
+import { CreditCard, FileText, Home, LayoutDashboard } from 'lucide-react';
 
 export const TENANT_SIDEBAR_ITEMS: ISidebarItem[] = [
   {

@@ -6,24 +6,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { format } from 'date-fns';
-import { CalendarDays, MessageSquare, ArrowLeft, Loader2, Send, Building2, MapPin, Calculator, ShieldCheck } from 'lucide-react';
+import { CalendarDays, MessageSquare, ArrowLeft, Loader2, Save, Building2, ShieldCheck } from 'lucide-react';
 
-import { rentalRequestSchema } from '../../_schemas/tenant/rentalRequestSchema';
-import { createRentalRequest, type RentalRequestState } from '../../_actions/tenant/rentalActions';
+import { rentalUpdateSchema } from '../../_schemas/tenant/rentalUpdateSchema';
+import { updateRentalRequest, type RentalRequestState } from '../../_actions/tenant/rentalActions';
 
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { DatePicker } from '@/components/ui/date-picker';
 import { toast } from 'sonner';
-import type { IProperty } from '@/lib/types';
 
-type RentalRequestFormData = z.infer<typeof rentalRequestSchema>;
+type RentalUpdateFormData = z.infer<typeof rentalUpdateSchema>;
 
-type RentalRequestFormProps = {
-  property: IProperty;
+type RentalUpdateFormProps = {
+  rentalId: string;
+  startDate: string;
+  endDate: string;
+  message?: string | null;
 };
 
 const initialState: RentalRequestState = {
@@ -32,27 +32,31 @@ const initialState: RentalRequestState = {
   errors: {},
 };
 
-export function RentalRequestForm({ property }: RentalRequestFormProps) {
+export function RentalUpdateForm({ rentalId, startDate: initialStartDate, endDate: initialEndDate, message }: RentalUpdateFormProps) {
   const router = useRouter();
 
-  const [state, action, pending] = useActionState(createRentalRequest, initialState);
+  const boundAction = updateRentalRequest.bind(null, rentalId);
+  const [state, action, pending] = useActionState(boundAction, initialState);
 
   // State for Shadcn DatePickers
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    initialStartDate ? new Date(initialStartDate) : undefined
+  );
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    initialEndDate ? new Date(initialEndDate) : undefined
+  );
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<RentalRequestFormData>({
-    resolver: zodResolver(rentalRequestSchema),
+  } = useForm<RentalUpdateFormData>({
+    resolver: zodResolver(rentalUpdateSchema),
     defaultValues: {
-      propertyId: property.id,
-      startDate: '',
-      endDate: '',
-      message: '',
+      startDate: initialStartDate ? initialStartDate.split('T')[0] : '',
+      endDate: initialEndDate ? initialEndDate.split('T')[0] : '',
+      message: message || '',
     },
   });
 
@@ -67,36 +71,20 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
     setValue('endDate', d ? format(d, 'yyyy-MM-dd') : '', { shouldValidate: true });
   };
 
-  // Cost calculation based on monthly rate
-  let totalDays = 0;
-  let amount = 0;
-  if (startDate && endDate) {
-    const MS_PER_DAY = 1000 * 60 * 60 * 24;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    totalDays = Math.ceil((end.getTime() - start.getTime()) / MS_PER_DAY);
-    if (totalDays > 0) {
-      const dailyRate = property.price / 30;
-      amount = Number((dailyRate * totalDays).toFixed(2));
-    }
-  }
-
   useEffect(() => {
     if (!state) return;
     if (!state.message.trim()) return;
 
     if (state.success) {
       toast.success(state.message);
-      router.push('/tenant-dashboard/requests');
+      router.push(`/tenant-dashboard/requests/${rentalId}`);
     } else {
       toast.error(state.message);
     }
-  }, [state, router]);
+  }, [state, router, rentalId]);
 
-  const onSubmit = (data: RentalRequestFormData) => {
+  const onSubmit = (data: RentalUpdateFormData) => {
     const formData = new FormData();
-    formData.append('propertyId', data.propertyId);
     formData.append('startDate', data.startDate);
     formData.append('endDate', data.endDate);
     if (data.message) formData.append('message', data.message);
@@ -106,66 +94,35 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
     });
   };
 
-  const displayImage =
-    property.images?.[0] ||
-    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80';
-
   return (
     <div className="max-w-4xl mx-auto space-y-6 font-sans">
 
-      {/* Back Link */}
+      {/* Back Navigation Link */}
       <Link
-        href={`/properties/${property.id}`}
+        href={`/tenant-dashboard/requests/${rentalId}`}
         className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-slate-400 hover:text-[#CFA190] transition-colors uppercase tracking-wider"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Property Details</span>
+        <span>Back to Application Details</span>
       </Link>
 
-      {/* Property Preview Card */}
-      <Card className="bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] shadow-md rounded-3xl overflow-hidden">
-        <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
-          <div className="relative h-32 sm:h-24 w-full sm:w-32 rounded-2xl overflow-hidden shrink-0 border border-gray-100 dark:border-slate-800">
-            <Image src={displayImage} alt={property.title} fill className="object-cover" unoptimized />
-            <Badge className="absolute top-2 left-2 bg-black/70 text-white font-bold text-[9px] uppercase">
-              {property.propertyType || property.category?.name || 'Rental'}
-            </Badge>
-          </div>
-
-          <div className="min-w-0 flex-1 space-y-1 text-center sm:text-left w-full">
-            <h3 className="text-base sm:text-lg font-black text-[#222222] dark:text-white truncate">
-              {property.title}
-            </h3>
-            <div className="flex items-center justify-center sm:justify-start gap-1 text-xs text-gray-500 dark:text-slate-400">
-              <MapPin className="size-3.5 text-[#CFA190] shrink-0" />
-              <span className="truncate">{property.location}</span>
-            </div>
-            <div className="pt-1 flex items-baseline justify-center sm:justify-start gap-1">
-              <span className="text-lg sm:text-xl font-black text-[#CFA190]">${property.price.toLocaleString()}</span>
-              <span className="text-xs text-gray-400">/ month</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Main Request Form */}
+      {/* Main Edit Form Card */}
       <Card className="bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] shadow-xl rounded-3xl">
-        <CardHeader className="p-6 pb-4 space-y-1">
+        <CardHeader className="p-6 pb-2 space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase w-fit">
             <Building2 className="size-3.5" />
-            <span>Rental Application</span>
+            <span>Update Application</span>
           </div>
-          <CardTitle className="text-xl sm:text-2xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            SUBMIT LEASE REQUEST
+          <CardTitle className="text-2xl font-black text-[#222222] mb-0 dark:text-white uppercase tracking-tight">
+            EDIT RENTAL DATES
           </CardTitle>
           <CardDescription className="text-xs text-gray-500 dark:text-slate-400">
-            Select your move-in & move-out dates and include an optional message for the landlord.
+            Only applications in PENDING status can be edited before landlord review.
           </CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="p-6 pt-0 space-y-5">
-            <input type="hidden" {...register('propertyId')} />
+          <CardContent className="p-6 pt-0 space-y-6">
             <input type="hidden" {...register('startDate')} />
             <input type="hidden" {...register('endDate')} />
 
@@ -214,27 +171,6 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
 
             </div>
 
-            {/* Cost Banner (Monthly Rate Basis) */}
-            {amount > 0 && (
-              <div className="p-4 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <Calculator className="size-5 text-[#CFA190] shrink-0" />
-                  <div>
-                    <span className="text-xs font-bold text-[#222222] dark:text-white block">
-                      Rental Duration: {totalDays} {totalDays === 1 ? 'Day' : 'Days'}
-                    </span>
-                    <span className="text-[10px] text-gray-500 block">
-                      Listed rate: ${property.price.toLocaleString()}/month
-                    </span>
-                  </div>
-                </div>
-                <div className="text-left sm:text-right">
-                  <span className="text-lg sm:text-xl font-black text-[#CFA190]">${amount.toLocaleString()}</span>
-                  <span className="text-[10px] text-gray-400 block font-semibold">Total Estimated Rent</span>
-                </div>
-              </div>
-            )}
-
             {/* Message Field */}
             <div className="space-y-1.5">
               <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#222222] dark:text-slate-200">
@@ -245,7 +181,7 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
                 {...register('message')}
                 disabled={pending}
                 rows={4}
-                placeholder="Introduce yourself and explain why you'd like to rent this property..."
+                placeholder="Update your message to the landlord..."
                 className="w-full rounded-2xl border border-[#e4e4e4] dark:border-[#2e3440] bg-transparent p-3.5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CFA190]/50 resize-none font-sans"
               />
               {(errors.message?.message || state.errors?.message) && (
@@ -258,26 +194,26 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
             {/* Security Notice */}
             <div className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 dark:bg-[#232733] border border-gray-200 dark:border-slate-800 text-xs text-gray-500">
               <ShieldCheck className="size-4 text-[#CFA190] shrink-0" />
-              <span>No payment required now. You will only pay if the landlord approves your application.</span>
+              <span>Saving changes will update your pending application details for landlord review.</span>
             </div>
 
           </CardContent>
 
-          <CardFooter className="p-6 pt-0">
+          <CardFooter className="p-6 pt-0 border-t-0">
             <Button
               type="submit"
               disabled={pending}
-              className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-5 sm:py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5"
+              className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5"
             >
               {pending ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  <span>Submitting Application...</span>
+                  <span>Saving Changes...</span>
                 </>
               ) : (
                 <>
-                  <Send className="size-4" />
-                  <span>Submit Rental Application</span>
+                  <Save className="size-4" />
+                  <span>Update Application</span>
                 </>
               )}
             </Button>

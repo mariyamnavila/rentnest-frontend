@@ -80,25 +80,19 @@ export type IRentalRequest = {
   id: string;
   propertyId: string;
   tenantId: string;
-  landlordId: string;
   status: RequestStatus;
-  moveInDate: string;
-  moveOutDate?: string | null;
+  startDate: string;
+  endDate: string;
   message?: string | null;
-  totalPrice?: number;
+  createdAt?: string;
+  updatedAt?: string;
   property?: IProperty;
   tenant?: {
     id: string;
     name: string;
     email: string;
   };
-  landlord?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  createdAt?: string;
-  updatedAt?: string;
+  payments?: IPayment[];
 };
 
 export type IPayment = {

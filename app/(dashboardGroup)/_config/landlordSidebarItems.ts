@@ -1,5 +1,5 @@
 import { ISidebarItem } from '@/lib/types';
-import { LayoutDashboard, Building2, ClipboardList, PlusCircle, FileText } from 'lucide-react';
+import { LayoutDashboard, Building2, PlusCircle, FileText } from 'lucide-react';
 
 export const LANDLORD_SIDEBAR_ITEMS: ISidebarItem[] = [
   {

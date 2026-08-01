@@ -41,10 +41,10 @@ export default async function TenantDashboardPage() {
   ];
 
   return (
-    <div className="space-y-5 sm:space-y-6 font-sans">
+    <div className="space-y-6 font-sans">
 
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden p-5 sm:p-6 rounded-3xl bg-linear-to-r from-white via-white to-[#fff5f5] dark:from-[#1a1d24] dark:via-[#1a1d24] dark:to-[#232733] border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
+      <div className="relative overflow-hidden p-6 rounded-3xl bg-linear-to-r from-white via-white to-[#fff5f5] dark:from-[#1a1d24] dark:via-[#1a1d24] dark:to-[#232733] border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
         <div className="space-y-2">
           <h1 className="text-xl sm:text-3xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
             WELCOME BACK, <span className="text-[#CFA190]">{userName}</span>
@@ -127,7 +127,7 @@ export default async function TenantDashboardPage() {
       {/* Recent Requests Section */}
       <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
         <CardHeader
-          className="p-4 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          className="p-6 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         >
           <div>
             <CardTitle className="text-base sm:text-lg font-black uppercase tracking-wide text-[#222222] dark:text-white">
@@ -150,7 +150,7 @@ export default async function TenantDashboardPage() {
           </Link>
         </CardHeader>
 
-        <CardContent className="p-5 pt-0">
+        <CardContent className="p-6 pt-0">
           {recentRentals.length > 0 ? (
             <div className="space-y-3">
               {recentRentals.map((rental) => {
@@ -205,7 +205,7 @@ export default async function TenantDashboardPage() {
               })}
             </div>
           ) : (
-            <div className="text-center py-10 sm:py-12 space-y-3">
+            <div className="text-center py-12 space-y-3">
               <div className="h-12 sm:h-14 w-12 sm:w-14 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] mx-auto flex items-center justify-center">
                 <ClipboardList className="size-6 sm:size-7" />
               </div>
