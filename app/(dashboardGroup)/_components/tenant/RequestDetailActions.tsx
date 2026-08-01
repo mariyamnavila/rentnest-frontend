@@ -14,7 +14,7 @@ type RequestDetailActionsProps = {
 export function RequestDetailActions({ status, propertyId, propertyName }: RequestDetailActionsProps) {
   const [reviewOpen, setReviewOpen] = useState(false);
 
-  if (status !== 'COMPLETED') return null;
+  if (status !== 'ACTIVE' && status !== 'COMPLETED') return null;
 
   return (
     <>

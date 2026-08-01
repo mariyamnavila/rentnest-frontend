@@ -77,7 +77,9 @@ export default async function MyRequestsPage() {
 
                       const isPending = rental.status === 'PENDING';
                       const isApproved = rental.status === 'APPROVED';
+                      const isActive = rental.status === 'ACTIVE';
                       const isCompleted = rental.status === 'COMPLETED';
+                      const canReview = isActive || isCompleted;
 
                       return (
                         <tr
@@ -157,7 +159,7 @@ export default async function MyRequestsPage() {
                                 </Link>
                               )}
 
-                              {isCompleted && (
+                              {canReview && (
                                 <ReviewButton
                                   propertyId={rental.propertyId}
                                   propertyName={rental.property?.title || 'this property'}

@@ -237,7 +237,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           </CardFooter>
         )}
 
-        {rental.status === 'COMPLETED' && (
+        {(rental.status === 'ACTIVE' || rental.status === 'COMPLETED') && (
           <CardFooter className="p-6 pt-0 border-t-0">
             <RequestDetailActions
               status={rental.status}
