@@ -14,8 +14,7 @@ export default async function DashboardLayout({
   const profileImage = user.data?.profileImage;
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] dark:bg-[#14171d] flex font-sans">
-      {/* Dynamic Role-Based Sidebar */}
+    <div className="min-h-screen bg-[#f7f7f7] dark:bg-[#14171d] font-sans">
       <DashboardSidebar
         role={role}
         userName={name}
@@ -23,9 +22,10 @@ export default async function DashboardLayout({
         profileImage={profileImage}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 p-4 sm:p-8 max-w-7xl mx-auto w-full">
-        {children}
+      <main className="pt-8 lg:pt-8 lg:ml-64 p-4 sm:p-8">
+        <div className="mx-auto max-w-7xl">
+          {children}
+        </div>
       </main>
     </div>
   );

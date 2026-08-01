@@ -100,6 +100,18 @@ export function DashboardSidebar({
             </button>
           </div>
 
+          <div className="px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <UserCheck className="size-4 text-[#CFA190]" />
+              <span className="text-xs font-black uppercase text-[#222222] dark:text-white">
+                {role === 'LANDLORD' ? 'Landlord Portal' : role === 'ADMIN' ? 'Admin Portal' : 'Tenant Portal'}
+              </span>
+            </div>
+            <Badge className="bg-[#CFA190] text-white text-[9px] font-extrabold px-2 py-0.5 uppercase">
+              {role}
+            </Badge>
+          </div>
+
           {/* Nav Links List */}
           <nav className="space-y-1 pt-2">
             {navItems.map((link) => {

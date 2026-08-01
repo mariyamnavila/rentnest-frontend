@@ -111,8 +111,8 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
     'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80';
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 font-sans">
-      
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 font-sans px-2 sm:px-0">
+
       {/* Back Link */}
       <Link
         href={`/properties/${property.id}`}
@@ -124,15 +124,15 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
 
       {/* Property Preview Card */}
       <Card className="bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] shadow-md rounded-3xl overflow-hidden">
-        <CardContent className="p-5 flex flex-col sm:flex-row items-center gap-5">
-          <div className="relative h-24 w-full sm:w-32 rounded-2xl overflow-hidden shrink-0 border border-gray-100 dark:border-slate-800">
+        <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
+          <div className="relative h-32 sm:h-24 w-full sm:w-32 rounded-2xl overflow-hidden shrink-0 border border-gray-100 dark:border-slate-800">
             <Image src={displayImage} alt={property.title} fill className="object-cover" unoptimized />
             <Badge className="absolute top-2 left-2 bg-black/70 text-white font-bold text-[9px] uppercase">
               {property.propertyType || property.category?.name || 'Rental'}
             </Badge>
           </div>
 
-          <div className="min-w-0 flex-1 space-y-1 text-center sm:text-left">
+          <div className="min-w-0 flex-1 space-y-1 text-center sm:text-left w-full">
             <h3 className="text-base sm:text-lg font-black text-[#222222] dark:text-white truncate">
               {property.title}
             </h3>
@@ -141,7 +141,7 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
               <span className="truncate">{property.location}</span>
             </div>
             <div className="pt-1 flex items-baseline justify-center sm:justify-start gap-1">
-              <span className="text-xl font-black text-[#CFA190]">${property.price.toLocaleString()}</span>
+              <span className="text-lg sm:text-xl font-black text-[#CFA190]">${property.price.toLocaleString()}</span>
               <span className="text-xs text-gray-400">/ month</span>
             </div>
           </div>
@@ -150,12 +150,12 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
 
       {/* Main Request Form */}
       <Card className="bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] shadow-xl rounded-3xl">
-        <CardHeader className="p-6 sm:p-8 pb-4 space-y-1">
+        <CardHeader className="p-4 sm:p-6 md:p-8 pb-3 sm:pb-4 space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase w-fit">
             <Building2 className="size-3.5" />
             <span>Rental Application</span>
           </div>
-          <CardTitle className="text-2xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
+          <CardTitle className="text-xl sm:text-2xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
             SUBMIT LEASE REQUEST
           </CardTitle>
           <CardDescription className="text-xs text-gray-500 dark:text-slate-400">
@@ -164,14 +164,14 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
         </CardHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="p-6 sm:p-8 pt-0 space-y-6">
+          <CardContent className="p-4 sm:p-6 md:p-8 pt-0 space-y-5 sm:space-y-6">
             <input type="hidden" {...register('propertyId')} />
             <input type="hidden" {...register('startDate')} />
             <input type="hidden" {...register('endDate')} />
 
             {/* Date Pickers Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              
+
               {/* Move-in Date Picker */}
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#222222] dark:text-slate-200">
@@ -216,7 +216,7 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
 
             {/* Cost Banner (Monthly Rate Basis) */}
             {amount > 0 && (
-              <div className="p-4 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
                   <Calculator className="size-5 text-[#CFA190] shrink-0" />
                   <div>
@@ -228,8 +228,8 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
                     </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-xl font-black text-[#CFA190]">${amount.toLocaleString()}</span>
+                <div className="text-left sm:text-right">
+                  <span className="text-lg sm:text-xl font-black text-[#CFA190]">${amount.toLocaleString()}</span>
                   <span className="text-[10px] text-gray-400 block font-semibold">Total Estimated Rent</span>
                 </div>
               </div>
@@ -263,11 +263,11 @@ export function RentalRequestForm({ property }: RentalRequestFormProps) {
 
           </CardContent>
 
-          <CardFooter className="p-6 sm:p-8 pt-0">
+          <CardFooter className="p-4 sm:p-6 md:p-8 pt-0">
             <Button
               type="submit"
               disabled={pending}
-              className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5"
+              className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-2xl py-5 sm:py-6 cursor-pointer text-sm gap-2 shadow-lg transition-transform hover:-translate-y-0.5"
             >
               {pending ? (
                 <>
