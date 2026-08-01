@@ -40,8 +40,6 @@ export type NavbarProps = {
 export type ICategory = {
   id: string;
   name: string;
-  slug: string;
-  icon?: string | null;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -63,9 +61,12 @@ export type IProperty = {
     id: string;
     name: string;
     email: string;
+    role: string;
+    profileImage?: string;
+    phone?: string;
   };
   reviews?: IReview[];
-  avgRating?: number;
+  // avgRating?: number;
   createdAt?: string;
   updatedAt?: string;
 };

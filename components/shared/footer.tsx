@@ -36,19 +36,19 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/properties?type=apartment" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
+                <Link href="/properties?categoryId=e16d10eb-a2e2-44df-9100-a0ce85231647" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
                   <span>Apartment</span>
                   <span className="text-[10px] bg-[#232733] px-2 py-0.5 rounded text-[#CFA190] font-bold">(12)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/properties?type=house" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
+                <Link href="/properties?categoryId=1a503d52-8557-46f0-8741-db1dc588d478" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
                   <span>Family House</span>
                   <span className="text-[10px] bg-[#232733] px-2 py-0.5 rounded text-slate-400 font-bold">(8)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/properties?type=studio" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
+                <Link href="/properties?categoryId=fceddd1c-466d-4bcd-bbd1-b55c40fafebb" className="hover:text-[#CFA190] transition-colors flex items-center justify-between">
                   <span>Studio & Loft</span>
                   <span className="text-[10px] bg-[#232733] px-2 py-0.5 rounded text-[#CFA190] font-bold">(5)</span>
                 </Link>
