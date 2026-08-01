@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getMyRentals } from '../../_actions/tenant/dashboardActions';
 import { StatusBadge } from '../../_components/shared/StatusBadge';
+import { ReviewButton } from '../../_components/tenant/ReviewButton';
 import { MapPin, CalendarDays, Eye, Pencil, CreditCard, Plus, FileText, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -76,6 +77,7 @@ export default async function MyRequestsPage() {
 
                       const isPending = rental.status === 'PENDING';
                       const isApproved = rental.status === 'APPROVED';
+                      const isCompleted = rental.status === 'COMPLETED';
 
                       return (
                         <tr
@@ -110,10 +112,10 @@ export default async function MyRequestsPage() {
                           </td>
 
                           {/* Lease Dates */}
-                          <td className="py-4 px-5">
+                          <td className="py-4 px-5 min-w-50">
                             <div className="space-y-0.5">
                               <span className="flex items-center gap-1 font-bold text-[#222222] dark:text-white text-xs">
-                                <CalendarDays className="size-3.5 text-[#CFA190]" />
+                                <CalendarDays className="size-3.5 text-[#CFA190] shrink-0" />
                                 {new Date(rental.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                 {' — '}
                                 {new Date(rental.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -155,6 +157,13 @@ export default async function MyRequestsPage() {
                                 </Link>
                               )}
 
+                              {isCompleted && (
+                                <ReviewButton
+                                  propertyId={rental.propertyId}
+                                  propertyName={rental.property?.title || 'this property'}
+                                />
+                              )}
+
                               <Link href={`/tenant-dashboard/requests/${rental.id}`}>
                                 <Button size="sm" variant="ghost" className="text-gray-500 hover:text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] rounded-xl px-2.5 py-1.5 cursor-pointer">
                                   <Eye className="size-4" />
@@ -178,6 +187,7 @@ export default async function MyRequestsPage() {
 
                   const isPending = rental.status === 'PENDING';
                   const isApproved = rental.status === 'APPROVED';
+                  const isCompleted = rental.status === 'COMPLETED';
 
                   return (
                     <div
@@ -219,6 +229,13 @@ export default async function MyRequestsPage() {
                                 <Pencil className="size-3" />
                               </Button>
                             </Link>
+                          )}
+                          {isCompleted && (
+                            <ReviewButton
+                              propertyId={rental.propertyId}
+                              propertyName={rental.property?.title || 'this property'}
+                              compact
+                            />
                           )}
                           <Link href={`/tenant-dashboard/requests/${rental.id}`}>
                             <Button size="sm" variant="ghost" className="text-xs p-1.5 h-7">

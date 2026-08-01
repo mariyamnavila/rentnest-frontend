@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArrowLeft, MapPin, CalendarDays, Mail, DollarSign, Pencil, CreditCard, ShieldCheck, Calculator, Building2 } from 'lucide-react';
 import { getRentalDetail } from '@/app/(dashboardGroup)/_actions/tenant/rentalDetailActions';
 import { StatusBadge } from '@/app/(dashboardGroup)/_components/shared/StatusBadge';
+import { RequestDetailActions } from '@/app/(dashboardGroup)/_components/tenant/RequestDetailActions';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -233,6 +234,16 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
               <ShieldCheck className="size-4" />
               <span>Rental Active — Payment Verified</span>
             </div>
+          </CardFooter>
+        )}
+
+        {rental.status === 'COMPLETED' && (
+          <CardFooter className="p-6 pt-0 border-t-0">
+            <RequestDetailActions
+              status={rental.status}
+              propertyId={rental.propertyId}
+              propertyName={property?.title || 'this property'}
+            />
           </CardFooter>
         )}
       </Card>
