@@ -203,3 +203,77 @@ export async function getAdminRentals(): Promise<{ success: boolean; data: Admin
     return { success: false, data: [] };
   }
 }
+
+export type AdminCategory = {
+  id: string;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export async function getCategories(): Promise<{ success: boolean; data: AdminCategory[] }> {
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/categories`, { cache: 'no-store' });
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: [] };
+    return { success: true, data: result.data || [] };
+  } catch {
+    return { success: false, data: [] };
+  }
+}
+
+export async function createCategory(name: string): Promise<{ success: boolean; message: string }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  if (!accessToken) return { success: false, message: 'Not authenticated' };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/categories`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: `accessToken=${accessToken}` },
+      body: JSON.stringify({ name }),
+    });
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, message: result.message || 'Failed to create' };
+    return { success: true, message: 'Category created' };
+  } catch {
+    return { success: false, message: 'An error occurred' };
+  }
+}
+
+export async function updateCategory(id: string, name: string): Promise<{ success: boolean; message: string }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  if (!accessToken) return { success: false, message: 'Not authenticated' };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/categories/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Cookie: `accessToken=${accessToken}` },
+      body: JSON.stringify({ name }),
+    });
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, message: result.message || 'Failed to update' };
+    return { success: true, message: 'Category updated' };
+  } catch {
+    return { success: false, message: 'An error occurred' };
+  }
+}
+
+export async function deleteCategory(id: string): Promise<{ success: boolean; message: string }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  if (!accessToken) return { success: false, message: 'Not authenticated' };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/categories/${id}`, {
+      method: 'DELETE',
+      headers: { Cookie: `accessToken=${accessToken}` },
+    });
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, message: result.message || 'Failed to delete' };
+    return { success: true, message: 'Category deleted' };
+  } catch {
+    return { success: false, message: 'An error occurred' };
+  }
+}
