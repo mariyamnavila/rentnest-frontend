@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Eye, Pencil, Trash2, ToggleLeft, ToggleRight, Loader2, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,36 +26,35 @@ type PropertyActionsProps = {
 
 export function PropertyActions({ propertyId, propertyName, isAvailable }: PropertyActionsProps) {
   const router = useRouter();
-  const [pending, startTransition] = useTransition();
-  const [toggling, setToggling] = useState(false);
+  const queryClient = useQueryClient();
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleDelete = () => {
-    startTransition(async () => {
-      const result = await deleteProperty(propertyId);
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteProperty(propertyId),
+    onSuccess: (result) => {
       if (result.success) {
         toast.success(result.message);
         setDeleteOpen(false);
+        queryClient.invalidateQueries({ queryKey: ['landlord', 'properties'] });
         router.refresh();
       } else {
         toast.error(result.message);
       }
-    });
-  };
+    },
+  });
 
-  const handleToggle = () => {
-    setToggling(true);
-    startTransition(async () => {
-      const result = await togglePropertyAvailability(propertyId, !isAvailable);
+  const toggleMutation = useMutation({
+    mutationFn: () => togglePropertyAvailability(propertyId, !isAvailable),
+    onSuccess: (result) => {
       if (result.success) {
         toast.success(result.message);
+        queryClient.invalidateQueries({ queryKey: ['landlord', 'properties'] });
         router.refresh();
       } else {
         toast.error(result.message);
       }
-      setToggling(false);
-    });
-  };
+    },
+  });
 
   return (
     <div className="flex items-center gap-1.5">
@@ -73,11 +73,11 @@ export function PropertyActions({ propertyId, propertyName, isAvailable }: Prope
       <Button
         size="sm"
         variant="ghost"
-        onClick={handleToggle}
-        disabled={pending || toggling}
+        onClick={() => toggleMutation.mutate()}
+        disabled={toggleMutation.isPending}
         className="text-gray-500 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-950/30 rounded-xl px-2 py-1.5 cursor-pointer"
       >
-        {toggling ? (
+        {toggleMutation.isPending ? (
           <Loader2 className="size-4 animate-spin" />
         ) : isAvailable ? (
           <ToggleRight className="size-4" />
@@ -108,18 +108,18 @@ export function PropertyActions({ propertyId, propertyName, isAvailable }: Prope
             <Button
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              disabled={pending}
+              disabled={deleteMutation.isPending}
               className="rounded-xl border-[#e4e4e4] dark:border-[#2e3440] font-bold cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
-              onClick={handleDelete}
-              disabled={pending}
+              onClick={() => deleteMutation.mutate()}
+              disabled={deleteMutation.isPending}
               className="rounded-xl font-bold cursor-pointer gap-2"
             >
-              {pending ? (
+              {deleteMutation.isPending ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
                   Deleting...
