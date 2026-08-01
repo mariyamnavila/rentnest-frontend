@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { User, LogOut, LayoutDashboard, Menu, X, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { NavbarProps } from '@/lib/types';
+import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import { logout } from '@/service/logOut';
 
@@ -18,15 +18,15 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export function Navbar({ user }: NavbarProps) {
+export function Navbar() {
+  const { user, role = 'TENANT' } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
 
-  const isLoggedIn = user?.success === true && !!user?.data;
-  const name = user?.data?.name || "User";
-  const email = user?.data?.email || "";
-  const role = user?.data?.role || "TENANT";
+  const isLoggedIn = !!user;
+  const name = user?.name || "User";
+  const email = user?.email || "";
 
   const getDashboardPath = () => {
     if (role === "ADMIN") return "/admin-dashboard";
@@ -104,9 +104,9 @@ export function Navbar({ user }: NavbarProps) {
                   className="flex items-center gap-2 rounded-full border border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] p-1.5 sm:pr-3 hover:bg-[#fff5f5] focus:outline-none transition-all cursor-pointer shadow-xs"
                 >
                   <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full bg-[#CFA190] text-white font-bold items-center justify-center text-xs shadow-inner">
-                    {user?.data?.profileImage ? (
+                    {user?.profileImage ? (
                       <Image
-                        src={user.data.profileImage}
+                        src={user.profileImage}
                         alt={name}
                         width={32}
                         height={32}

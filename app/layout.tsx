@@ -2,6 +2,8 @@ import "./globals.css";
 import { Nunito_Sans, Figtree } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { Providers } from "@/components/Providers";
+import { AuthProvider } from "@/context/AuthContext";
 
 const figtreeHeading = Figtree({ subsets: ['latin'], variable: '--font-heading' });
 const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-sans' });
@@ -22,8 +24,12 @@ export default function RootLayout({
       className={cn("h-full antialiased font-sans", nunitoSans.variable, figtreeHeading.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
-        <Toaster position="top-right" richColors closeButton />
+        <Providers>
+          <AuthProvider>
+            {children}
+            <Toaster position="top-right" richColors closeButton />
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

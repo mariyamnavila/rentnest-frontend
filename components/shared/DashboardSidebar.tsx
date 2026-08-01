@@ -12,24 +12,16 @@ import {
   X,
   UserCheck,
 } from 'lucide-react';
-import type { UserRole } from '@/lib/types';
+import { useAuth } from '@/context/AuthContext';
 import { logout } from '@/service/logOut';
 import { sidebarMenuItems } from '@/app/(dashboardGroup)/_config/sidebarMenuItems';
 import { toast } from 'sonner';
 
-type DashboardSidebarProps = {
-  role?: UserRole;
-  userName?: string;
-  userEmail?: string;
-  profileImage?: string | null;
-};
-
-export function DashboardSidebar({
-  role = 'TENANT',
-  userName = 'User Account',
-  userEmail = 'user@rentnest.com',
-  profileImage,
-}: DashboardSidebarProps) {
+export function DashboardSidebar() {
+  const { user, role = 'TENANT' } = useAuth();
+  const userName = user?.name || 'User Account';
+  const userEmail = user?.email || 'user@rentnest.com';
+  const profileImage = user?.profileImage;
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();

@@ -322,7 +322,7 @@ export function PropertyForm({ categories }: PropertyFormProps) {
                       <SelectValue placeholder="Select property category" />
                     </SelectTrigger>
 
-                    <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-2xl">
+                    <SelectContent className="w-(--radix-select-trigger-width) rounded-2xl">
                       {categories.map((cat) => (
                         <SelectItem
                           key={cat.id}
@@ -491,7 +491,7 @@ export function PropertyForm({ categories }: PropertyFormProps) {
               ) : (
                 <div className="p-4 rounded-2xl bg-gray-50 dark:bg-[#232733] border border-gray-200 dark:border-slate-800 text-xs text-gray-500 flex items-center gap-2">
                   <Info className="size-4 text-[#CFA190] shrink-0" />
-                  <span>Paste valid image URLs above and click "+" or press Enter to generate thumbnail gallery previews.</span>
+                  <span>Paste valid image URLs above and click &quot;+&quot; or press Enter to generate thumbnail gallery previews.</span>
                 </div>
               )}
 
