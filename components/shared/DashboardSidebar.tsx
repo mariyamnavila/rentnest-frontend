@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -15,6 +15,7 @@ import {
 import type { UserRole } from '@/lib/types';
 import { logout } from '@/service/logOut';
 import { sidebarMenuItems } from '@/app/(dashboardGroup)/_config/sidebarMenuItems';
+import { toast } from 'sonner';
 
 type DashboardSidebarProps = {
   role?: UserRole;
@@ -31,6 +32,8 @@ export function DashboardSidebar({
 }: DashboardSidebarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
 
   // Role-based profile link
   const profileHref = `/${role.toLowerCase()}-dashboard/profile`;
@@ -39,7 +42,14 @@ export function DashboardSidebar({
   const navItems = sidebarMenuItems[role] || sidebarMenuItems.TENANT;
 
   const handleLogout = async () => {
-    await logout();
+    try {
+      await logout();
+      toast.success("User Logged Out Successfully");
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Logout failed. Please try again.");
+    }
   };
 
   return (

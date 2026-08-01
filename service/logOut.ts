@@ -7,4 +7,5 @@ export const logout = async () => {
 
     cookieStore.delete("accessToken");
     cookieStore.delete("refreshToken");
+
 };
