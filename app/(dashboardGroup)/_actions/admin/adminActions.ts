@@ -16,31 +16,45 @@ export type AdminUser = {
 
 export type AdminStats = {
   totalUsers: number;
-  totalTenants: number;
-  totalLandlords: number;
-  totalProperties: number;
-  totalRentals: number;
+  activeUsers: number;
   bannedUsers: number;
+  totalProperties: number;
+  activeRentals: number;
+  totalRevenue: number;
 };
 
-export async function getAllUsers(): Promise<{ success: boolean; data: AdminUser[] }> {
+export type AdminUserMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export async function getAllUsers(search?: string, page?: number, limit?: number): Promise<{ success: boolean; data: AdminUser[]; meta: AdminUserMeta | null }> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  if (!accessToken) return { success: false, data: [] };
+  if (!accessToken) return { success: false, data: [], meta: null };
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/users`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+
+    const url = `${process.env.BACKEND_API_URL}/api/admin/users${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: { Cookie: `accessToken=${accessToken}` },
       cache: 'no-store',
     });
 
     const result = await res.json();
-    if (!res.ok || !result.success) return { success: false, data: [] };
+    if (!res.ok || !result.success) return { success: false, data: [], meta: null };
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }
 
@@ -70,6 +84,27 @@ export async function toggleUserStatus(userId: string, currentStatus: string): P
     return { success: true, message: `User ${newStatus === 'BANNED' ? 'banned' : 'unbanned'} successfully` };
   } catch {
     return { success: false, message: 'An error occurred' };
+  }
+}
+
+export async function getAdminStats(): Promise<{ success: boolean; data: AdminStats | null }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) return { success: false, data: null };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/stats`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: null };
+
+    return { success: true, data: result.data };
+  } catch {
+    return { success: false, data: null };
   }
 }
 

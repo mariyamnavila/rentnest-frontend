@@ -1,7 +1,8 @@
-import { getAllUsers, getAllProperties, getAllRentals } from '../_actions/admin/adminActions';
+import { getAdminStats } from '../_actions/admin/adminActions';
 import { UserTable } from '../_components/admin/UserTable';
+import { getAllUsers } from '../_actions/admin/adminActions';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Users, Building2, ClipboardList, UserCheck, UserX, Shield } from 'lucide-react';
+import { Users, Building2, ClipboardList, UserCheck, UserX, Shield, DollarSign } from 'lucide-react';
 
 export const metadata = {
   title: 'Admin Dashboard - RentNest',
@@ -9,27 +10,22 @@ export const metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const [usersResult, propertiesResult, rentalsResult] = await Promise.all([
-    getAllUsers(),
-    getAllProperties(),
-    getAllRentals(),
+  const [statsResult, usersResult] = await Promise.all([
+    getAdminStats(),
+    getAllUsers(undefined, 1, 5),
   ]);
 
+  const stats = statsResult.data;
   const users = usersResult.data;
-  const properties = propertiesResult.data;
-  const rentals = rentalsResult.data;
-
-  const tenants = users.filter((u) => u.role === 'TENANT').length;
-  const landlords = users.filter((u) => u.role === 'LANDLORD').length;
-  const bannedUsers = users.filter((u) => u.status === 'BANNED').length;
+  const meta = usersResult.meta;
 
   const statCards = [
-    { label: 'Total Users', value: users.length, icon: Users, color: 'text-[#CFA190]', bg: 'bg-[#fff5f5] dark:bg-[#232733]' },
-    { label: 'Tenants', value: tenants, icon: UserCheck, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-950/30' },
-    { label: 'Landlords', value: landlords, icon: Building2, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-    { label: 'Properties', value: properties.total, icon: Building2, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
-    { label: 'Rental Requests', value: rentals.total, icon: ClipboardList, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-950/30' },
-    { label: 'Banned Users', value: bannedUsers, icon: UserX, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-950/30' },
+    { label: 'Total Users', value: stats?.totalUsers || 0, icon: Users, color: 'text-[#CFA190]', bg: 'bg-[#fff5f5] dark:bg-[#232733]' },
+    { label: 'Active Users', value: stats?.activeUsers || 0, icon: UserCheck, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
+    { label: 'Banned Users', value: stats?.bannedUsers || 0, icon: UserX, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-950/30' },
+    { label: 'Properties', value: stats?.totalProperties || 0, icon: Building2, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
+    { label: 'Active Leases', value: stats?.activeRentals || 0, icon: ClipboardList, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-950/30' },
+    { label: 'Revenue', value: `$${(stats?.totalRevenue || 0).toLocaleString()}`, icon: DollarSign, color: 'text-[#CFA190]', bg: 'bg-[#fff5f5] dark:bg-[#232733]' },
   ];
 
   return (
@@ -79,20 +75,20 @@ export default async function AdminDashboardPage() {
         })}
       </div>
 
-      {/* User Management Table */}
+      {/* Recent Users Table */}
       <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
         <CardHeader className="p-6 pb-4">
           <div>
             <CardTitle className="text-base sm:text-lg font-black uppercase tracking-wide text-[#222222] dark:text-white">
-              User Management
+              Recent Users
             </CardTitle>
             <CardDescription className="text-xs text-gray-500 dark:text-slate-400">
-              View and manage all registered users. Ban or unban accounts as needed.
+              Latest registered users on the platform
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="p-6 pt-0">
-          <UserTable users={users} />
+          <UserTable users={users} meta={meta} />
         </CardContent>
       </Card>
 

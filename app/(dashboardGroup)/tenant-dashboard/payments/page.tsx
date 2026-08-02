@@ -86,7 +86,7 @@ export default async function PaymentHistoryPage() {
                         <StatusBadge status={payment.status} />
                       </td>
                       <td className="py-4 px-6 text-right">
-                        <Link href={`/tenant-dashboard/requests/${payment.rentalRequestId}`}>
+                        <Link href={`/tenant-dashboard/payments/${payment.id}`}>
                           <Button size="sm" variant="ghost" className="text-gray-500 hover:text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] rounded-xl px-2.5 py-1.5 cursor-pointer">
                             <ArrowUpRight className="size-4" />
                           </Button>
@@ -131,7 +131,7 @@ export default async function PaymentHistoryPage() {
                         : new Date(payment.createdAt || '').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </span>
                   </div>
-                  <Link href={`/tenant-dashboard/requests/${payment.rentalRequestId}`}>
+                  <Link href={`/tenant-dashboard/payments/${payment.id}`}>
                     <Button size="sm" variant="ghost" className="text-xs p-1.5 h-7">
                       <ArrowUpRight className="size-3.5" />
                     </Button>

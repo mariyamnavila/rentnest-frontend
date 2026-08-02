@@ -154,3 +154,108 @@ export async function togglePropertyAvailability(
     return { success: false, message: 'Unable to connect to the server.' };
   }
 }
+
+export async function getLandlordProperty(propertyId: string): Promise<{ success: boolean; data: Record<string, unknown> | null }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) return { success: false, data: null };
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord/properties`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: null };
+
+    const property = (result.data || []).find((p: { id: string }) => p.id === propertyId);
+    if (!property) return { success: false, data: null };
+
+    return { success: true, data: property };
+  } catch {
+    return { success: false, data: null };
+  }
+}
+
+export type UpdatePropertyState = {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string>;
+};
+
+export async function updateProperty(
+  propertyId: string,
+  prevState: UpdatePropertyState,
+  formData: FormData
+): Promise<UpdatePropertyState> {
+  const rawAmenities = formData.get('amenities') as string;
+  const rawImages = formData.get('images') as string;
+
+  const values = {
+    title: formData.get('title') as string,
+    description: formData.get('description') as string,
+    location: formData.get('location') as string,
+    price: Number(formData.get('price')),
+    categoryId: formData.get('categoryId') as string,
+    amenities: rawAmenities ? rawAmenities.split(',').map((a) => a.trim()).filter(Boolean) : [],
+    images: rawImages ? rawImages.split('\n').map((i) => i.trim()).filter(Boolean) : [],
+  };
+
+  const validated = createPropertySchema.safeParse(values);
+
+  if (!validated.success) {
+    const tree = z.treeifyError(validated.error);
+
+    const errors: Record<string, string> = {};
+    for (const [key, value] of Object.entries(tree.properties || {})) {
+      const val = value as { errors?: string[] };
+      if (val.errors?.length) errors[key] = val.errors[0];
+    }
+
+    return {
+      success: false,
+      message: 'Please fix the validation errors.',
+      errors,
+    };
+  }
+
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) {
+    return { success: false, message: 'You must be logged in to update this property.' };
+  }
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord/properties/${propertyId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `accessToken=${accessToken}`,
+      },
+      body: JSON.stringify(validated.data),
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || 'Failed to update property.',
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Property updated successfully!',
+    };
+  } catch {
+    return {
+      success: false,
+      message: 'Unable to connect to the server.',
+    };
+  }
+}

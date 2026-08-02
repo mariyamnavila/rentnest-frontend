@@ -7,9 +7,18 @@ export const metadata = {
   description: 'View and manage all registered users',
 };
 
-export default async function AdminUsersPage() {
-  const result = await getAllUsers();
+type PageProps = {
+  searchParams: Promise<{ search?: string; page?: string }>;
+};
+
+export default async function AdminUsersPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const search = params.search || '';
+  const page = params.page ? Number(params.page) : 1;
+
+  const result = await getAllUsers(search, page, 10);
   const users = result.data;
+  const meta = result.meta;
 
   return (
     <div className="space-y-6 font-sans">
@@ -20,7 +29,7 @@ export default async function AdminUsersPage() {
           Manage <span className="text-[#CFA190]">Users</span>
         </h1>
         <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
-          {users.length} total users registered on the platform
+          {meta?.total || users.length} total users registered on the platform
         </p>
       </div>
 
@@ -31,11 +40,11 @@ export default async function AdminUsersPage() {
             All Users
           </CardTitle>
           <CardDescription className="text-xs text-gray-500 dark:text-slate-400">
-            Search by name or email. Ban or unban accounts as needed.
+            Search by name, email, or role. Ban or unban accounts as needed.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 pt-0">
-          <UserTable users={users} />
+          <UserTable users={users} meta={meta} />
         </CardContent>
       </Card>
 
