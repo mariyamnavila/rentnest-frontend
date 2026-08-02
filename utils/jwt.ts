@@ -11,8 +11,7 @@ const verifyToken = (token: string, secret: string) => {
 
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            console.log("Token verification failed:", error);
-
+            // console.log("Token verification failed:", error);
         }
         const message =
             error instanceof Error ? error.message : "Token verification failed";

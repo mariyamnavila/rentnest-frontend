@@ -59,7 +59,6 @@ export async function createRentalRequest(
       message: validated.data.message,
     }
 
-    console.log(payload)
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/rentals`, {
       method: 'POST',
       headers: {

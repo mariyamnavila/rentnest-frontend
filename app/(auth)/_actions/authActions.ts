@@ -10,6 +10,7 @@ import z from 'zod';
 export type LoginState = {
   success: boolean;
   message: string;
+  role?: "TENANT" | "LANDLORD" | "ADMIN";
   errors?: Record<string, string>;
 };
 
@@ -31,8 +32,6 @@ export async function loginAction(
   };
 
   const validated = loginSchema.safeParse(values);
-
-  console.log(validated, "jhygg")
 
   if (!validated.success) {
 
@@ -88,15 +87,11 @@ export async function loginAction(
     redirect(redirectTo)
   }
 
-  if (decodedToken.role === "TENANT") {
-    redirect("/tenant-dashboard")
-  } else if (decodedToken.role === "LANDLORD") {
-    redirect("/landlord-dashboard")
-  } else if (decodedToken.role === "ADMIN") {
-    redirect("/admin-dashboard")
-  }
-
-  return result
+  return {
+    success: true,
+    message: "Login successful",
+    role: decodedToken.role,
+  };
 
 }
 

@@ -4,7 +4,7 @@ import { startTransition, useActionState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { LogIn, Loader2, Lock, Mail } from 'lucide-react';
 
@@ -14,6 +14,7 @@ import { loginAction, type LoginState } from '../_actions/authActions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -26,6 +27,8 @@ const initialState: LoginState = {
 export function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') ?? '';
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [state, action, pending] = useActionState(
     loginAction.bind(null, redirectTo),
@@ -41,20 +44,30 @@ export function LoginForm() {
   });
 
   useEffect(() => {
+    if (!state.success) return;
 
-    console.log(state, "state coming")
+    const updateAuth = async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["auth", "me"],
+      });
 
-    if (!state) return
+      await queryClient.refetchQueries({
+        queryKey: ["auth", "me"],
+      });
 
-    if (!state.message.trim()) return;
+      if (state.role === "TENANT") {
+        router.replace("/tenant-dashboard");
+      } else if (state.role === "LANDLORD") {
+        router.replace("/landlord-dashboard");
+      } else {
+        router.replace("/admin-dashboard");
+      }
 
-    if (state.success) {
-      toast.success(state.message);
-    } else {
-      toast.error(state.message);
-    }
+      router.refresh();
+    };
 
-  }, [state])
+    updateAuth();
+  }, [state, queryClient, router]);
 
   const onSubmit = (data: LoginFormData) => {
     const formData = new FormData();
