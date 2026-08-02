@@ -115,10 +115,20 @@ export type IReview = {
   tenantId: string;
   rating: number;
   comment: string;
+  property?: IProperty;
   tenant?: {
     id: string;
     name: string;
   };
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type IMyReview = IReview & {
+  property: {
+    id: string;
+    title: string;
+    location: string;
+    price: number;
+  };
 };

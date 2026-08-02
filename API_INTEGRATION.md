@@ -30,6 +30,7 @@ Backend: `F:\Navila\rentnest-backend` | Frontend: `F:\Navila\rentnest-app`
 | `/tenant-dashboard/requests/[id]/pay` | Payment summary + Stripe checkout | `GET /api/rentals/:id`, `POST /api/payments/create` |
 | `/tenant-dashboard/payments` | Payment history with status | `GET /api/payments` |
 | `/tenant-dashboard/payments/[id]` | Payment detail (amount, method, transaction ID, property) | `GET /api/payments/:paymentId` |
+| `/tenant-dashboard/reviews` | My Reviews list with property, rating, comment, date | `GET /api/reviews` |
 | `/payment/success` | Stripe redirect — payment success | (client-side only) |
 | `/payment/cancel` | Stripe redirect — payment cancelled | (client-side only) |
 
@@ -58,6 +59,7 @@ Backend: `F:\Navila\rentnest-backend` | Frontend: `F:\Navila\rentnest-app`
 | Component/Feature | Backend API | Notes |
 |-------------------|-------------|-------|
 | Review button on ACTIVE or COMPLETED rentals | `POST /api/reviews` | Tenant can review after payment (ACTIVE status) or after lease ends (COMPLETED) |
+| `/tenant-dashboard/reviews` | My Reviews list with property, rating, comment, date | `GET /api/reviews` |
 
 ## Internal Services
 
@@ -80,8 +82,8 @@ Backend: `F:\Navila\rentnest-backend` | Frontend: `F:\Navila\rentnest-app`
 | Property | `/api/properties` | 2 | Public |
 | Rental | `/api/rentals` | 5 | TENANT only |
 | Payment | `/api/payments` | 4 | Mixed (webhook public) |
-| Review | `/api/reviews` | 1 | TENANT only |
-| **Total** | | **35** | |
+| Review | `/api/reviews` | 2 | TENANT only |
+| **Total** | | **36** | |
 
 ## All Backend Endpoints
 
@@ -151,3 +153,4 @@ Backend: `F:\Navila\rentnest-backend` | Frontend: `F:\Navila\rentnest-app`
 | Method | Endpoint | Auth | Frontend Consumer |
 |--------|----------|------|-------------------|
 | POST | `/api/reviews` | TENANT | `ReviewFormModal.tsx` (ACTIVE or COMPLETED rentals) |
+| GET | `/api/reviews` | TENANT | `tenant-dashboard/reviews/page.tsx` |

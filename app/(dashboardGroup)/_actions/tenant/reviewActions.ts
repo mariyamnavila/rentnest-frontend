@@ -2,41 +2,50 @@
 
 import { cookies } from 'next/headers';
 import { reviewSchema } from '../../_schemas/tenant/reviewSchema';
+import type { IMyReview } from '@/lib/types';
 import z from 'zod';
 
 export type ReviewState = {
   success: boolean;
   message: string;
-  errors?: Record<string, string>;
+  errors?: {
+    propertyId?: string[];
+    rating?: string[];
+    comment?: string[];
+  };
 };
 
 export async function submitReview(
   prevState: ReviewState,
   formData: FormData
 ): Promise<ReviewState> {
-  const values = {
-    propertyId: formData.get('propertyId') as string,
-    rating: Number(formData.get('rating')),
-    comment: (formData.get('comment') as string) || undefined,
-  };
-
-  const validated = reviewSchema.safeParse(values);
-
-  if (!validated.success) {
-    const tree = z.treeifyError(validated.error);
-    const errors: Record<string, string> = {};
-    for (const [key, value] of Object.entries(tree.properties || {})) {
-      const val = value as { errors?: string[] };
-      if (val.errors?.length) errors[key] = val.errors[0];
-    }
-    return { success: false, message: 'Please fix the validation errors.', errors };
-  }
-
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
   if (!accessToken) {
     return { success: false, message: 'You must be logged in to submit a review.' };
+  }
+
+  const raw = {
+    propertyId: formData.get('propertyId') as string,
+    rating: Number(formData.get('rating')),
+    comment: (formData.get('comment') as string) || undefined,
+  };
+
+  const validated = reviewSchema.safeParse(raw);
+
+  if (!validated.success) {
+    const tree = z.treeifyError(validated.error);
+
+    return {
+      success: false,
+      message: 'Validation failed',
+      errors: {
+        propertyId: tree.properties?.propertyId?.errors[0] ? [tree.properties.propertyId.errors[0]] : undefined,
+        rating: tree.properties?.rating?.errors[0] ? [tree.properties.rating.errors[0]] : undefined,
+        comment: tree.properties?.comment?.errors[0] ? [tree.properties.comment.errors[0]] : undefined,
+      },
+    };
   }
 
   try {
@@ -46,8 +55,8 @@ export async function submitReview(
         'Content-Type': 'application/json',
         Cookie: `accessToken=${accessToken}`,
       },
+      credentials: 'include',
       body: JSON.stringify(validated.data),
-      cache: 'no-store',
     });
 
     const result = await res.json();
@@ -58,6 +67,32 @@ export async function submitReview(
 
     return { success: true, message: 'Review submitted successfully!' };
   } catch {
-    return { success: false, message: 'Unable to connect to the server.' };
+    return { success: false, message: 'An unexpected error occurred.' };
+  }
+}
+
+export async function getMyReviews(): Promise<{ success: boolean; data: IMyReview[] }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) {
+    return { success: false, data: [] };
+  }
+
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/reviews`, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return { success: false, data: [] };
+    }
+
+    return { success: true, data: result.data || [] };
+  } catch {
+    return { success: false, data: [] };
   }
 }
