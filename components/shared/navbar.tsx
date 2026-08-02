@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import { logout } from '@/service/logOut';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 const navItems = [
@@ -19,6 +20,7 @@ const navItems = [
 ];
 
 export function Navbar() {
+  const queryClient = useQueryClient();
   const { user, role = 'TENANT' } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,7 +40,13 @@ export function Navbar() {
     try {
       await logout();
       toast.success("User Logged Out Successfully");
+
+      queryClient.removeQueries({
+        queryKey: ["auth", "me"],
+      });
+
       router.push("/login");
+      router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Logout failed. Please try again.");

@@ -44,7 +44,16 @@ export function LoginForm() {
   });
 
   useEffect(() => {
-    if (!state.success) return;
+    if (!state.message) return;
+
+    if (!state.message.trim()) return;
+
+    if (state.success) {
+      toast.success(state.message);
+    } else {
+      toast.error(state.message);
+      return;
+    }
 
     const updateAuth = async () => {
       await queryClient.invalidateQueries({

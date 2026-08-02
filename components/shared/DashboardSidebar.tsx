@@ -16,8 +16,10 @@ import { useAuth } from '@/context/AuthContext';
 import { logout } from '@/service/logOut';
 import { sidebarMenuItems } from '@/app/(dashboardGroup)/_config/sidebarMenuItems';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function DashboardSidebar() {
+  const queryClient = useQueryClient();
   const { user, role = 'TENANT' } = useAuth();
   const userName = user?.name || 'User Account';
   const userEmail = user?.email || 'user@rentnest.com';
@@ -35,9 +37,16 @@ export function DashboardSidebar() {
 
   const handleLogout = async () => {
     try {
+
       await logout();
       toast.success("User Logged Out Successfully");
+
+      queryClient.removeQueries({
+        queryKey: ["auth", "me"],
+      });
+
       router.push("/login");
+      router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Logout failed. Please try again.");
