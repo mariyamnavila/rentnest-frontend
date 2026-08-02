@@ -47,14 +47,15 @@ export default function ForbiddenPage() {
             </Button>
           </Link>
 
-          <Button
-            variant="outline"
-            onClick={() => window.history.back()}
-            className="w-full sm:w-auto border-[#CFA190] text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] font-bold rounded-xl text-xs gap-2 py-5 cursor-pointer"
-          >
-            <ArrowLeft className="size-4" />
-            <span>Go Back</span>
-          </Button>
+          <Link href="/properties">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto border-[#CFA190] text-[#CFA190] hover:bg-[#fff5f5] dark:hover:bg-[#232733] font-bold rounded-xl text-xs gap-2 py-5 cursor-pointer"
+            >
+              <ArrowLeft className="size-4" />
+              <span>Browse Properties</span>
+            </Button>
+          </Link>
         </div>
 
       </div>
