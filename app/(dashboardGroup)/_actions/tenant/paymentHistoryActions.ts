@@ -2,13 +2,20 @@
 
 import { cookies } from 'next/headers';
 import type { IPayment } from '@/lib/types';
+import { AppError, ErrorType, handleApiError, handleNetworkError } from '@/lib/errors';
 
-export async function getMyPayments(): Promise<{ success: boolean; data: IPayment[] }> {
+export type PaymentResult = {
+  success: boolean;
+  data: IPayment[];
+  error?: AppError;
+};
+
+export async function getMyPayments(): Promise<PaymentResult> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
   if (!accessToken) {
-    return { success: false, data: [] };
+    return { success: false, data: [], error: { type: ErrorType.UNAUTHORIZED, message: 'Please log in to view payments.' } };
   }
 
   try {
@@ -20,12 +27,12 @@ export async function getMyPayments(): Promise<{ success: boolean; data: IPaymen
     const result = await res.json();
 
     if (!res.ok || !result.success) {
-      return { success: false, data: [] };
+      return { success: false, data: [], error: handleApiError(res, result) };
     }
 
     return { success: true, data: result.data || [] };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], error: handleNetworkError() };
   }
 }
 
@@ -41,11 +48,13 @@ export type PaymentDetail = IPayment & {
   tenant?: { id: string; name: string; email: string };
 };
 
-export async function getPaymentDetail(paymentId: string): Promise<{ success: boolean; data: PaymentDetail | null }> {
+export async function getPaymentDetail(paymentId: string): Promise<{ success: boolean; data: PaymentDetail | null; error?: AppError }> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  if (!accessToken) return { success: false, data: null };
+  if (!accessToken) {
+    return { success: false, data: null, error: { type: ErrorType.UNAUTHORIZED, message: 'Please log in to view payment details.' } };
+  }
 
   try {
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/payments/${paymentId}`, {
@@ -54,10 +63,12 @@ export async function getPaymentDetail(paymentId: string): Promise<{ success: bo
     });
 
     const result = await res.json();
-    if (!res.ok || !result.success) return { success: false, data: null };
+    if (!res.ok || !result.success) {
+      return { success: false, data: null, error: handleApiError(res, result) };
+    }
 
     return { success: true, data: result.data };
   } catch {
-    return { success: false, data: null };
+    return { success: false, data: null, error: handleNetworkError() };
   }
 }

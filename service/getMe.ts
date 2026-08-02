@@ -2,16 +2,22 @@
 
 import { IUser } from "@/lib/types";
 import { cookies } from "next/headers";
+import { AppError, ErrorType, handleApiError, handleNetworkError } from "@/lib/errors";
 
-export const getMe = async (): Promise<IUser> => {
+export type GetMeResult = {
+  success: boolean;
+  data?: IUser["data"];
+  error?: AppError;
+};
+
+export const getMe = async (): Promise<GetMeResult> => {
     const cookieStore = await cookies();
-
     const accessToken = cookieStore.get("accessToken")?.value;
 
     if (!accessToken) {
         return {
             success: false,
-            message: "User is not logged in.",
+            error: { type: ErrorType.UNAUTHORIZED, message: "Please log in to continue." },
         };
     }
 
@@ -36,15 +42,15 @@ export const getMe = async (): Promise<IUser> => {
 
             return {
                 success: false,
-                message: result.message || "Failed to fetch user information.",
+                error: handleApiError(res, result),
             };
         }
 
-        return result;
+        return { success: true, data: result.data };
     } catch {
         return {
             success: false,
-            message: "Unable to connect to the server.",
+            error: handleNetworkError(),
         };
     }
 };

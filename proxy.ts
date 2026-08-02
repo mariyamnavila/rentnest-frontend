@@ -6,7 +6,6 @@ import { jwtUtils } from './utils/jwt';
 import { getNewAccessToken } from './service/refreshToken';
 
 const AUTH_ROUTES = ["/login", "/register"];
-// const PUBLIC_ROUTES = ["/", "/news","/login", "/register"];
 const PUBLIC_ROUTES = ["/", "/properties"];
 
 export async function proxy(request: NextRequest) {
@@ -84,11 +83,11 @@ export async function proxy(request: NextRequest) {
     }
 
     if (pathname.startsWith("/tenant-dashboard") && userRole !== "TENANT") {
-        return NextResponse.redirect(new URL("/not-found", request.url))
+        return NextResponse.redirect(new URL("/forbidden", request.url))
     } else if (pathname.startsWith("/admin-dashboard") && userRole !== "ADMIN") {
-        return NextResponse.redirect(new URL("/not-found", request.url))
+        return NextResponse.redirect(new URL("/forbidden", request.url))
     } else if (pathname.startsWith("/landlord-dashboard") && userRole !== "LANDLORD") {
-        return NextResponse.redirect(new URL("/not-found", request.url))
+        return NextResponse.redirect(new URL("/forbidden", request.url))
     }
 
     return NextResponse.next()

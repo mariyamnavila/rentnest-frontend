@@ -1,12 +1,11 @@
 # RentNest – Rental Property Marketplace
 
 ## Overview
-RentNest is a full-stack rental property marketplace that connects tenants with landlords. Users can browse properties, submit rental requests, make payments via Stripe, and leave reviews. The platform includes role-based dashboards for Tenants, Landlords, and Admins.
+RentNest is a full-stack rental property marketplace that connects tenants with landlords. Users can browse properties, submit rental requests, make payments, and leave reviews. The platform includes role-based dashboards for Tenants, Landlords, and Admins.
 
-## Screenshot
+<!-- ## Screenshot -->
 <!-- ![RentNest Screenshot](screenshot.png) -->
-> *Screenshot coming soon*
-
+<!-- > *Screenshot coming soon* -->
 ## Tech Stack
 - **Framework:** Next.js 16, React 19
 - **Language:** TypeScript
@@ -14,7 +13,6 @@ RentNest is a full-stack rental property marketplace that connects tenants with 
 - **State Management:** TanStack Query, React Context
 - **Forms:** React Hook Form, Zod
 - **Authentication:** JWT (HTTP-only cookies)
-- **Payments:** Stripe
 - **Icons:** Lucide React
 - **Notifications:** Sonner
 
@@ -22,7 +20,7 @@ RentNest is a full-stack rental property marketplace that connects tenants with 
 - **Public Property Listings** – Browse, search, filter, and sort properties by category, price range, and amenities.
 - **Property Detail Pages** – Image gallery, description, amenities, landlord info, and reviews.
 - **Rental Request System** – Tenants can create, edit, and track rental requests with status badges (PENDING, APPROVED, REJECTED, ACTIVE, COMPLETED).
-- **Stripe Payment Integration** – Secure payment processing with success/cancel redirect pages and payment history.
+- **Payment Integration** – Secure payment processing with success/cancel redirect pages and payment history.
 - **Review System** – Tenants can leave star ratings and comments for properties they have rented.
 - **Role-Based Dashboards** – Separate dashboards for Tenant, Landlord, and Admin with different permissions.
 - **Landlord Tools** – Create, edit, toggle availability, and delete properties. Approve, reject, or complete rental requests.
@@ -53,8 +51,8 @@ This repository contains the frontend only. Backend is a separate project.
 Clone the repo:
 
 ```bash
-git clone https://github.com/mariyamnavila/rentnest-app.git
-cd rentnest-app
+git clone https://github.com/mariyamnavila/rentnest-frontend.git
+cd rentnest-frontend
 ```
 
 Install dependencies:
@@ -66,8 +64,7 @@ pnpm install
 Create a `.env` file in the root directory and add the following:
 
 ```env
-BACKEND_API_URL=http://localhost:5000
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_public_key
+BACKEND_API_URL=your_backend_api_url
 ```
 
 Start the dev server:

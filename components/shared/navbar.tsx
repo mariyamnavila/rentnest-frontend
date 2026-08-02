@@ -14,8 +14,8 @@ import { logout } from '@/service/logOut';
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Rentals', href: '/properties' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  // { label: 'About', href: '/about' },
+  // { label: 'Contact', href: '/contact' },
 ];
 
 export function Navbar() {
