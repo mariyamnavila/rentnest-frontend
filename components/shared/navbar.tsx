@@ -10,13 +10,14 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import { logout } from '@/service/logOut';
 import { useQueryClient } from '@tanstack/react-query';
+import { ThemeToggle } from './ThemeToggle';
 
 
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Rentals', href: '/properties' },
-  // { label: 'About', href: '/about' },
-  // { label: 'Contact', href: '/contact' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export function Navbar() {
@@ -69,7 +70,7 @@ export function Navbar() {
 
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="h-9 w-9 sm:h-10 sm:w-10 bg-white p-1 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
               <Image
                 src="/logo.png"
                 alt="RentNest Logo"
@@ -105,6 +106,8 @@ export function Navbar() {
 
           {/* Right Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle />
+
             {isLoggedIn ? (
               <div className="relative">
                 <button

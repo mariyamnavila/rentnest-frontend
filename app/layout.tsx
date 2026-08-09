@@ -11,6 +11,11 @@ const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-sans' });
 export const metadata = {
   title: "RentNest - Find & List Rental Properties with Ease",
   description: "Modern rental property marketplace connecting tenants, landlords, and property managers.",
+  icons: {
+    icon: "/logo-bg-white.jpg",
+    shortcut: "/logo-bg-white.jpg",
+    apple: "/logo-bg-white.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -21,6 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn("h-full antialiased font-sans", nunitoSans.variable, figtreeHeading.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

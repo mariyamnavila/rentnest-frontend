@@ -98,10 +98,13 @@ export function Footer() {
                 <Link href="/properties" className="hover:text-[#CFA190] transition-colors">Browse Rentals</Link>
               </li>
               <li>
-                <Link href="/login" className="hover:text-[#CFA190] transition-colors">Sign In</Link>
+                <Link href="/about" className="hover:text-[#CFA190] transition-colors">About Us</Link>
               </li>
               <li>
-                <Link href="/register" className="hover:text-[#CFA190] transition-colors">Create Account</Link>
+                <Link href="/contact" className="hover:text-[#CFA190] transition-colors">Contact Us</Link>
+              </li>
+              <li>
+                <Link href="/terms" className="hover:text-[#CFA190] transition-colors">Terms & Privacy</Link>
               </li>
             </ul>
           </div>
@@ -111,11 +114,11 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-[#2a2e39] grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <MapPin className="size-4 text-[#CFA190] shrink-0" />
-            <span>Central Business District, Downtown</span>
+            <span>123 Innovation Way, Suite 400, San Francisco</span>
           </div>
           <div className="flex items-center gap-2">
             <Phone className="size-4 text-[#CFA190] shrink-0" />
-            <span>+1 (800) RENT-NEST (24/7 Support)</span>
+            <span>+1 (800) 555-RENT (Mon-Fri 9am-6pm)</span>
           </div>
           <div className="flex items-center gap-2">
             <Mail className="size-4 text-[#CFA190] shrink-0" />
@@ -127,9 +130,9 @@ export function Footer() {
         <div className="mt-8 pt-6 border-t border-[#2a2e39]/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} RentNest Rentals Marketplace. All Rights Reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+            <Link href="/about" className="hover:text-slate-300 transition-colors">About</Link>
+            <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
             <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
-            <Link href="/properties" className="hover:text-slate-300 transition-colors">Sitemap</Link>
           </div>
         </div>
       </div>

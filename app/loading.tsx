@@ -4,9 +4,9 @@ export default function Loading() {
   return (
     <div className="flex-1 min-h-[calc(100vh-160px)] flex flex-col items-center justify-center p-4 bg-background font-sans">
       <div className="flex flex-col items-center space-y-4 text-center">
-        
+
         {/* Animated Branded Logo Container */}
-        <div className="relative h-16 w-16 rounded-2xl bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] shadow-xl flex items-center justify-center animate-bounce">
+        <div className="relative h-16 w-16 rounded-2xl bg-white border border-[#e4e4e4] dark:border-[#2e3440] shadow-xl flex items-center justify-center animate-bounce">
           <Image
             src="/logo.png"
             alt="RentNest Logo"

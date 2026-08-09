@@ -17,6 +17,7 @@ import { logout } from '@/service/logOut';
 import { sidebarMenuItems } from '@/app/(dashboardGroup)/_config/sidebarMenuItems';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
+import { ThemeToggle } from './ThemeToggle';
 
 export function DashboardSidebar() {
   const queryClient = useQueryClient();
@@ -58,7 +59,7 @@ export function DashboardSidebar() {
       {/* Mobile Top Header with Hamburger Toggle */}
       <div className="lg:hidden sticky top-0 z-40 bg-white dark:bg-[#1a1d24] border-b border-[#e4e4e4] dark:border-[#2e3440] px-4 h-16 flex items-center justify-between font-sans">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-xl flex items-center justify-center">
+          <div className="h-8 w-8 p-1 bg-white rounded-xl flex items-center justify-center">
             <Image src="/logo.png" alt="RentNest" width={32} height={32} className="w-full h-full object-contain" />
           </div>
           <span className="text-lg font-black tracking-tight text-[#222222] dark:text-white uppercase">
@@ -66,14 +67,17 @@ export function DashboardSidebar() {
           </span>
         </Link>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-[#222222] dark:text-white"
-        >
-          {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-        </Button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-[#222222] dark:text-white"
+          >
+            {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+          </Button>
+        </div>
       </div>
 
       {/* Overlay Backdrop for Mobile */}
@@ -93,7 +97,7 @@ export function DashboardSidebar() {
         <div className="p-6 space-y-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="h-10 w-10 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 p-1 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <div className="h-10 w-10 rounded-2xl bg-[#fff5f5] border border-[#CFA190]/30 p-1 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Image src="/logo.png" alt="RentNest" width={36} height={36} className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
@@ -111,16 +115,19 @@ export function DashboardSidebar() {
             </button>
           </div>
 
-          <div className="px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <UserCheck className="size-4 text-[#CFA190]" />
-              <span className="text-xs font-black uppercase text-[#222222] dark:text-white">
+          <div className="px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <UserCheck className="size-4 text-[#CFA190] shrink-0" />
+              <span className="text-xs font-black uppercase text-[#222222] dark:text-white truncate">
                 {role === 'LANDLORD' ? 'Landlord Portal' : role === 'ADMIN' ? 'Admin Portal' : 'Tenant Portal'}
               </span>
             </div>
-            <Badge className="bg-[#CFA190] text-white text-[9px] font-extrabold px-2 py-0.5 uppercase">
-              {role}
-            </Badge>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <ThemeToggle className="size-7" />
+              <Badge className="bg-[#CFA190] text-white text-[9px] font-extrabold px-2 py-0.5 uppercase">
+                {role}
+              </Badge>
+            </div>
           </div>
 
           {/* Nav Links List */}
