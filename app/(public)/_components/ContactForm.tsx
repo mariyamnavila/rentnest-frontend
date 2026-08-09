@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactSchema, type ContactFormData } from '@/lib/schemas/contactSchema';
+import { sendContactEmailAction } from '../_actions/contactActions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Send, Mail, User, Tag, MessageSquare } from 'lucide-react';
+import { Loader2, Send, Mail, User, Tag, MessageSquare, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function ContactForm() {
@@ -16,6 +17,7 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -24,13 +26,23 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setLoading(true);
     try {
-      // Simulate submission network call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success(`Thank you ${data.name}! Your message has been sent successfully.`);
-      reset();
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('subject', data.subject);
+      formData.append('message', data.message);
+
+      const result = await sendContactEmailAction({ success: false, message: '' }, formData);
+
+      if (result.success) {
+        toast.success(result.message || 'Message sent successfully!');
+        reset();
+      } else {
+        toast.error(result.message || 'Failed to send message.');
+      }
     } catch (error) {
       console.error('Contact form submit error:', error);
-      toast.error('Failed to send message. Please try again.');
+      toast.error('Error sending message. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -128,7 +140,7 @@ export function ContactForm() {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl py-6 cursor-pointer text-sm gap-2 shadow-md transition-transform hover:-translate-y-0.5"
+        className="w-full bg-[#CFA190] hover:bg-[#C08E82] text-white font-bold rounded-xl py-6 cursor-pointer text-sm gap-2 shadow-md transition-transform hover:-translate-y-0.5 mt-2"
       >
         {loading ? (
           <>

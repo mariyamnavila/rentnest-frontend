@@ -54,19 +54,19 @@ const team = [
   {
     name: 'Sarah Jenkins',
     role: 'Founder & CEO',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&crop=faces&w=600&h=600&q=80',
     bio: '10+ years in PropTech innovation, passionate about modernizing urban rental experiences.',
   },
   {
     name: 'Marcus Vance',
     role: 'Head of Product',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&crop=faces&w=600&h=600&q=80',
     bio: 'Ex-Silicon Valley product leader focused on intuitive UX and automated lease management.',
   },
   {
     name: 'Elena Rostova',
     role: 'Lead Trust & Safety',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&crop=faces&w=600&h=600&q=80',
     bio: 'Ensuring 100% verified landlord credentials and transparent tenant background safeguards.',
   },
 ];
@@ -231,13 +231,13 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {team.map((member) => (
             <Card key={member.name} className="bg-white dark:bg-[#1a1d24] border-[#e4e4e4] dark:border-[#2e3440] rounded-3xl overflow-hidden shadow-xs group pt-0">
-              <div className="relative aspect-4/3 overflow-hidden">
+              <div className="relative aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <Image
                   unoptimized
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <CardContent className="p-6 space-y-2">

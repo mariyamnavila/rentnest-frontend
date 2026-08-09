@@ -101,7 +101,7 @@ export default function ContactPage() {
                   Visit Our Headquarters
                 </h3>
 
-                <div className="aspect-16/9 rounded-2xl bg-linear-to-br from-[#fff5f5] to-[#f7f7f7] dark:from-[#232733] dark:to-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] p-4 flex flex-col justify-center items-center text-center space-y-2">
+                <div className="aspect-video rounded-2xl bg-linear-to-br from-[#fff5f5] to-[#f7f7f7] dark:from-[#232733] dark:to-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] p-4 flex flex-col justify-center items-center text-center space-y-2">
                   <MapPin className="size-8 text-[#CFA190] animate-bounce" />
                   <p className="text-xs font-black text-[#222222] dark:text-white uppercase">San Francisco HQ</p>
                   <p className="text-[11px] text-gray-500 dark:text-slate-400">123 Innovation Way, Suite 400, CA 94107</p>
