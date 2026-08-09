@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { KeyRound, Building2, Search, PlusCircle, ArrowRight, Sparkles, DollarSign, CreditCard, Filter, BadgeCheck, FolderPlus, UserCheck, ToggleRight, TrendingUp } from 'lucide-react';
+import { AnimatedHeading } from './AnimatedHeading';
 
 export function RoleOverviewSection() {
   const [activeTab, setActiveTab] = useState<'tenant' | 'landlord'>('tenant');
@@ -17,9 +18,11 @@ export function RoleOverviewSection() {
           <span className="inline-block px-3.5 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
             Designed For You
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            HOW <span className="text-[#CFA190]">RENTNEST</span> WORKS FOR YOU
-          </h2>
+          <AnimatedHeading
+            text="HOW RENTNEST WORKS FOR YOU"
+            highlightText="RENTNEST"
+            className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight"
+          />
         </div>
 
         {/* Interactive Tabs Switcher */}

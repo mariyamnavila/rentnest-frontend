@@ -6,9 +6,13 @@ export const metadata = {
   description: 'Review RentNest terms of service, privacy policy, landlord responsibilities, and tenant privacy safeguards.',
 };
 
+import { AnimatedPageWrapper } from '../_components/AnimatedPageWrapper';
+
+import { AnimatedHeading } from '../_components/AnimatedHeading';
+
 export default function TermsPage() {
   return (
-    <div className="space-y-12 py-8 font-sans container mx-auto px-4 max-w-4xl">
+    <AnimatedPageWrapper className="space-y-12 py-8 font-sans container mx-auto px-4 max-w-4xl">
       {/* Header */}
       <section className="text-center space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#fff5f5] dark:bg-[#232733] px-3.5 py-1.5 border border-[#CFA190]/30 text-xs font-extrabold text-[#CFA190] uppercase tracking-wider">
@@ -16,9 +20,13 @@ export default function TermsPage() {
           <span>LEGAL & GOVERNANCE</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-black text-[#222222] dark:text-white uppercase tracking-tight font-sans">
-          TERMS OF SERVICE & <span className="text-[#CFA190]">PRIVACY</span>
-        </h1>
+        <AnimatedHeading
+          as="h1"
+          text="TERMS OF SERVICE & PRIVACY"
+          highlightText="PRIVACY"
+          align="center"
+          className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-sans"
+        />
 
         <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed font-sans">
           Last Updated: February 2026. Please read our platform terms, tenant guidelines, and data protection commitments carefully.
@@ -113,6 +121,6 @@ export default function TermsPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AnimatedPageWrapper>
   );
 }

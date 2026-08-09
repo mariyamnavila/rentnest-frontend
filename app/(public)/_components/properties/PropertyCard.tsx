@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,14 @@ export function PropertyCard({ property }: PropertyCardProps) {
     'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80';
 
   return (
-    <div className="group rounded-2xl overflow-hidden border border-[#e4e4e4] dark:border-[#2e3440] bg-white dark:bg-[#232733] transition-all hover:shadow-xl hover:-translate-y-1 flex flex-col h-full">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.4 }}
+      className="group rounded-2xl overflow-hidden border border-[#e4e4e4] dark:border-[#2e3440] bg-white dark:bg-[#232733] transition-all hover:shadow-xl flex flex-col h-full"
+    >
       {/* Image Container */}
       <div className="relative aspect-4/3 w-full overflow-hidden">
         <Image
@@ -105,6 +113,6 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

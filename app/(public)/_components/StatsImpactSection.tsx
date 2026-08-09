@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Building2, Users, ShieldCheck, Star, Sparkles } from 'lucide-react';
+import { AnimatedHeading } from './AnimatedHeading';
 
 const stats = [
   {
@@ -39,9 +40,11 @@ export function StatsImpactSection() {
           <span className="inline-block px-3.5 py-1 rounded-full bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
             Platform Impact
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
-            TRUSTED BY THOUSANDS <span className="text-[#CFA190]">NATIONWIDE</span>
-          </h2>
+          <AnimatedHeading
+            text="TRUSTED BY THOUSANDS NATIONWIDE"
+            highlightText="NATIONWIDE"
+            className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white justify-center"
+          />
         </div>
 
         {/* Stats Grid */}

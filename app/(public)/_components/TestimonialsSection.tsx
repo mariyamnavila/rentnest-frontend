@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, MessageSquareQuote, ShieldCheck, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { AnimatedHeading } from './AnimatedHeading';
 
 const testimonials = [
   {
@@ -41,9 +42,11 @@ export function TestimonialsSection() {
           <span className="inline-block px-3.5 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
             Verified Reviews
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            WHAT OUR <span className="text-[#CFA190]">COMMUNITY</span> SAYS
-          </h2>
+          <AnimatedHeading
+            text="WHAT OUR COMMUNITY SAYS"
+            highlightText="COMMUNITY"
+            className="text-2xl sm:text-3xl font-black uppercase tracking-tight justify-center"
+          />
         </div>
 
         {/* Testimonials Grid */}

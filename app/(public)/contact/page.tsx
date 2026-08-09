@@ -34,9 +34,12 @@ const contactInfo = [
   },
 ];
 
+import { AnimatedPageWrapper } from '../_components/AnimatedPageWrapper';
+import { AnimatedHeading } from '../_components/AnimatedHeading';
+
 export default function ContactPage() {
   return (
-    <div className="space-y-12 py-8 font-sans">
+    <AnimatedPageWrapper className="space-y-12 py-8 font-sans">
       {/* Hero Section */}
       <section className="container mx-auto px-4 text-center max-w-3xl space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#fff5f5] dark:bg-[#232733] px-3.5 py-1.5 border border-[#CFA190]/30 text-xs font-extrabold text-[#CFA190] uppercase tracking-wider">
@@ -44,9 +47,13 @@ export default function ContactPage() {
           <span>WE&apos;RE HERE TO HELP</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-black text-[#222222] dark:text-white uppercase tracking-tight font-sans">
-          GET IN <span className="text-[#CFA190]">TOUCH</span> WITH US
-        </h1>
+        <AnimatedHeading
+          as="h1"
+          text="GET IN TOUCH WITH US"
+          highlightText="TOUCH"
+          align="center"
+          className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-sans"
+        />
 
         <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed font-sans">
           Have questions about a property listing, lease agreement, or payment issue? Send us a message and our support team will reach out promptly.
@@ -80,9 +87,12 @@ export default function ContactPage() {
           {/* Contact Form Card */}
           <div className="lg:col-span-7 bg-white dark:bg-[#1a1d24] border border-[#e4e4e4] dark:border-[#2e3440] p-6 sm:p-8 rounded-3xl shadow-xs space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-                Send Us a Message
-              </h2>
+              <AnimatedHeading
+                text="Send Us a Message"
+                highlightText="Message"
+                align="left"
+                className="text-xl font-black uppercase tracking-tight"
+              />
               <p className="text-xs text-gray-500 dark:text-slate-400">
                 Fill out the form below and we will get back to you within 24 hours.
               </p>
@@ -135,6 +145,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-    </div>
+    </AnimatedPageWrapper>
   );
 }

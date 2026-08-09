@@ -71,11 +71,14 @@ const team = [
   },
 ];
 
+import { AnimatedPageWrapper, AnimatedSection } from '../_components/AnimatedPageWrapper';
+import { AnimatedHeading } from '../_components/AnimatedHeading';
+
 export default function AboutPage() {
   return (
-    <div className="space-y-16 py-8 font-sans">
+    <AnimatedPageWrapper className="space-y-16 py-8 font-sans">
       {/* Hero Section */}
-      <section className="container mx-auto px-4">
+      <AnimatedSection className="container mx-auto px-4">
         <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-white via-white to-[#fff5f5] dark:from-[#14171d] dark:via-[#1a1d24] dark:to-[#232733] border border-[#e4e4e4] dark:border-[#2e3440] p-8 md:p-14 shadow-xs">
           <div className="max-w-3xl space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#fff5f5] dark:bg-[#232733] px-3.5 py-1.5 border border-[#CFA190]/30 text-xs font-extrabold text-[#CFA190] uppercase tracking-wider">
@@ -83,9 +86,13 @@ export default function AboutPage() {
               <span>About RentNest</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black text-[#222222] dark:text-white uppercase tracking-tight leading-tight font-sans">
-              REDEFINING HOW PEOPLE <span className="text-[#CFA190]">FIND & LEASE</span> HOMES
-            </h1>
+            <AnimatedHeading
+              as="h1"
+              text="REDEFINING HOW PEOPLE FIND & LEASE HOMES"
+              highlightText="FIND & LEASE"
+              align="responsive"
+              className="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-tight font-sans"
+            />
 
             <p className="text-base sm:text-lg text-gray-600 dark:text-slate-300 leading-relaxed font-sans">
               RentNest is a next-generation rental property marketplace built to bridge the gap between tenants and landlords. We combine modern technology, verified property data, and secure digital workflows to make finding, booking, and managing rental homes effortless.
@@ -106,7 +113,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Stats Counter Bar */}
       <section className="container mx-auto px-4">
@@ -140,9 +147,12 @@ export default function AboutPage() {
               <span className="text-xs font-black uppercase tracking-widest text-[#CFA190]">
                 OUR MISSION & VISION
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-                Empowering Tenants and Property Owners Worldwide
-              </h2>
+              <AnimatedHeading
+                text="Empowering Tenants and Property Owners Worldwide"
+                highlightText="Worldwide"
+                align="left"
+                className="text-2xl sm:text-4xl font-black uppercase tracking-tight"
+              />
             </div>
 
             <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed">
@@ -184,9 +194,12 @@ export default function AboutPage() {
           <span className="text-xs font-black uppercase tracking-widest text-[#CFA190]">
             WHAT GUIDES US
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            Our Core Values
-          </h2>
+          <AnimatedHeading
+            text="Our Core Values"
+            highlightText="Values"
+            align="center"
+            className="text-2xl sm:text-4xl font-black uppercase tracking-tight"
+          />
           <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
             We hold ourselves to the highest standards of safety, usability, and customer satisfaction.
           </p>
@@ -220,9 +233,12 @@ export default function AboutPage() {
           <span className="text-xs font-black uppercase tracking-widest text-[#CFA190]">
             BEHIND RENTNEST
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            Meet Our Leadership Team
-          </h2>
+          <AnimatedHeading
+            text="Meet Our Leadership Team"
+            highlightText="Leadership"
+            align="center"
+            className="text-2xl sm:text-4xl font-black uppercase tracking-tight"
+          />
           <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
             Dedicated professionals committed to simplifying property rentals for everyone.
           </p>
@@ -249,6 +265,6 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
-    </div>
+    </AnimatedPageWrapper>
   );
 }

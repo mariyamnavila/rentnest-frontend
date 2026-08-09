@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Send, CheckCircle2, Building2, Search } from 'lucide-react';
 import { toast } from 'sonner';
+import { AnimatedHeading } from './AnimatedHeading';
 
 export function NewsletterCTASection() {
   const [email, setEmail] = useState('');
@@ -32,16 +33,18 @@ export function NewsletterCTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#fff5f5] via-white to-[#fff5f5] dark:from-[#1a1d24] dark:via-[#232733] dark:to-[#1a1d24] border border-[#CFA190]/30 p-8 md:p-12 shadow-lg"
+          className="relative overflow-hidden rounded-3xl bg-white dark:bg-[#1a1d24] border border-[#CFA190]/30 p-8 md:p-12 shadow-lg"
         >
           <div className="max-w-2xl mx-auto text-center space-y-4">
             <div className="h-12 w-12 rounded-2xl bg-[#CFA190]/10 border border-[#CFA190]/30 text-[#CFA190] flex items-center justify-center mx-auto mb-2">
               <Mail className="size-6" />
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-black text-[#222222] dark:text-white uppercase tracking-tight font-sans">
-              GET NEW LISTING <span className="text-[#CFA190]">ALERTS</span> FIRST
-            </h2>
+            <AnimatedHeading
+              text="GET NEW LISTING ALERTS FIRST"
+              highlightText="ALERTS"
+              className="text-2xl sm:text-4xl font-black uppercase tracking-tight font-sans justify-center"
+            />
 
             <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed font-sans">
               Subscribe to receive weekly updates on new property additions, rental market trends, and exclusive landlord offers.
@@ -79,7 +82,7 @@ export function NewsletterCTASection() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {/* Tenant CTA */}
-          <div className="p-8 rounded-3xl bg-linear-to-br from-[#1a1d24] to-[#232733] text-white border border-[#2e3440] shadow-xl space-y-4 flex flex-col justify-between">
+          <div className="p-8 rounded-3xl bg-[#1a1d24] dark:bg-[#1a1d24] text-white border border-[#2e3440] shadow-xl space-y-4 flex flex-col justify-between">
             <div className="space-y-2">
               <span className="text-[10px] font-black uppercase tracking-widest text-[#CFA190] px-2.5 py-1 rounded bg-[#CFA190]/10 border border-[#CFA190]/30 inline-block">
                 FOR TENANTS
@@ -100,7 +103,7 @@ export function NewsletterCTASection() {
           </div>
 
           {/* Landlord CTA */}
-          <div className="p-8 rounded-3xl bg-linear-to-br from-[#fff5f5] via-white to-[#fff5f5] dark:from-[#1a1d24] dark:to-[#14171d] text-[#222222] dark:text-white border border-[#CFA190]/40 shadow-xl space-y-4 flex flex-col justify-between">
+          <div className="p-8 rounded-3xl bg-white dark:bg-[#1a1d24] text-[#222222] dark:text-white border border-[#CFA190]/40 shadow-xl space-y-4 flex flex-col justify-between">
             <div className="space-y-2">
               <span className="text-[10px] font-black uppercase tracking-widest text-[#CFA190] px-2.5 py-1 rounded bg-[#CFA190]/10 border border-[#CFA190]/30 inline-block">
                 FOR LANDLORDS

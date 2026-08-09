@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Search, Building2, ShieldCheck, PlusCircle, Home } from 'lucide-react';
 import Link from 'next/link';
+import { AnimatedHeading } from './AnimatedHeading';
 
 const heroImages = [
   {
@@ -42,9 +43,13 @@ export function HeroSection() {
               <span>All-In-One Rental Marketplace</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#222222] dark:text-white tracking-tight leading-tight uppercase font-sans">
-              FIND, LIST & MANAGE <span className="text-[#CFA190]">RENTALS</span> WITH EASE
-            </h1>
+            <AnimatedHeading
+              as="h1"
+              text="FIND, LIST & MANAGE RENTALS WITH EASE"
+              highlightText="RENTALS"
+              align="responsive"
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight uppercase font-sans"
+            />
 
             <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
               Whether you are a tenant searching for a dream home, a landlord managing property listings and requests, or an administrator overseeing platform health — RentNest connects everyone effortlessly.
@@ -144,8 +149,8 @@ export function HeroSection() {
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${idx === currentImageIndex
-                        ? 'w-6 bg-[#CFA190]'
-                        : 'w-2 bg-white/60 hover:bg-white'
+                      ? 'w-6 bg-[#CFA190]'
+                      : 'w-2 bg-white/60 hover:bg-white'
                       }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />

@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { AnimatedHeading } from './AnimatedHeading';
 
 const faqs = [
   {
@@ -36,9 +37,11 @@ export function FAQSection() {
           <span className="inline-block px-3.5 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
             Questions & Answers
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            FREQUENTLY ASKED <span className="text-[#CFA190]">QUESTIONS</span>
-          </h2>
+          <AnimatedHeading
+            text="FREQUENTLY ASKED QUESTIONS"
+            highlightText="QUESTIONS"
+            className="text-2xl sm:text-3xl font-black uppercase tracking-tight justify-center"
+          />
         </div>
 
         {/* Shadcn Accordion */}

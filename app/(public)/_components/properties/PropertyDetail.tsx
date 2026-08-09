@@ -19,6 +19,7 @@ import {
   Check,
   MessageSquare,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import type { IProperty } from '@/lib/types';
 
@@ -53,7 +54,12 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
       : 0;
 
   return (
-    <div className="container mx-auto px-4 max-w-7xl py-8 font-sans">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="container mx-auto px-4 max-w-7xl py-8 font-sans"
+    >
 
       {/* Top Navigation Strip */}
       <div className="flex items-center justify-between mb-6">
@@ -407,6 +413,6 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
         </aside>
 
       </div>
-    </div>
+    </motion.div>
   );
 }

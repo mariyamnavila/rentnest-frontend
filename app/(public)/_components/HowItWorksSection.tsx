@@ -1,6 +1,7 @@
 'use client';
 
 import { Search, FileText, CheckCircle, Upload, UserCheck, CreditCard } from 'lucide-react';
+import { AnimatedHeading } from './AnimatedHeading';
 
 export function HowItWorksSection() {
   return (
@@ -12,9 +13,11 @@ export function HowItWorksSection() {
           <span className="inline-block px-3.5 py-1 rounded-full bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/30 text-[#CFA190] text-xs font-extrabold tracking-wider uppercase">
             Simple Process
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#222222] dark:text-white uppercase tracking-tight">
-            THREE STEPS TO YOUR <span className="text-[#CFA190]">NEW LEASE</span>
-          </h2>
+          <AnimatedHeading
+            text="THREE STEPS TO YOUR NEW LEASE"
+            highlightText="LEASE"
+            className="text-2xl sm:text-3xl font-black uppercase tracking-tight justify-center"
+          />
         </div>
 
         {/* 3 Step Card Grid */}

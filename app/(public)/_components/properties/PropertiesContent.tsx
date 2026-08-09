@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { PropertyCard } from './PropertyCard';
 import { PropertySearchBar } from './PropertySearchBar';
 import { PropertyFilters } from './PropertyFilters';
@@ -22,7 +23,12 @@ export function PropertiesContent({
   categories,
 }: PropertiesContentProps) {
   return (
-    <div className="flex flex-col lg:flex-row gap-8">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col lg:flex-row gap-8"
+    >
       {/* Sidebar Filters (Desktop) */}
       <aside className="hidden lg:block w-72 shrink-0">
         <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto bg-white dark:bg-[#1a1d24] rounded-2xl border border-[#e4e4e4] dark:border-[#2e3440] p-5">
@@ -90,6 +96,6 @@ export function PropertiesContent({
         {/* Pagination */}
         <PropertyPagination meta={initialMeta} />
       </div>
-    </div>
+    </motion.div>
   );
 }
