@@ -20,6 +20,15 @@ export type RegisterState = {
   errors?: Record<string, string>;
 };
 
+export type SocialLoginPayload = {
+  email: string;
+  name: string;
+  profileImage?: string;
+  provider: "GOOGLE";
+  providerId: string;
+  role?: "TENANT" | "LANDLORD" | "ADMIN";
+};
+
 export async function loginAction(
   redirectTo: string,
   prevState: LoginState,
@@ -93,6 +102,58 @@ export async function loginAction(
     role: decodedToken.role,
   };
 
+}
+
+export async function socialLoginAction(
+  payload: SocialLoginPayload
+): Promise<LoginState> {
+  try {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/social-login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || 'Social login failed.',
+      };
+    }
+
+    const cookieStore = await cookies();
+
+    cookieStore.set('accessToken', result.data.accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24,
+    });
+
+    cookieStore.set('refreshToken', result.data.refreshToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    const decodedToken = jwt.decode(result.data.accessToken) as JwtPayload;
+
+    return {
+      success: true,
+      message: 'Social login successful!',
+      role: decodedToken.role,
+    };
+  } catch (error) {
+    console.error('Social login action error:', error);
+    return {
+      success: false,
+      message: 'Server error during social login.',
+    };
+  }
 }
 
 export async function registerAction(

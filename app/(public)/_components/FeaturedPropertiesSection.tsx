@@ -13,7 +13,7 @@ export function FeaturedPropertiesSection({ properties }: FeaturedPropertiesSect
   if (!properties || properties.length === 0) return null;
 
   return (
-    <section className="py-16 bg-white dark:bg-[#1a1d24] font-sans">
+    <section className="pb-16 pt-4 bg-white dark:bg-[#1a1d24] font-sans">
       <div className="container mx-auto px-4">
 
         {/* Section Header */}

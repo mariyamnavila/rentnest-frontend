@@ -97,6 +97,6 @@ export const config = {
     matcher: [
         // '/dashboard/:path*',
         // '/admin-dashboard/:path*',
-        '/((?!api|_next/static|fav.ico|_next/image|.*\\.png$).*)',
+        '/((?!api|_next/static|favicon.ico|_next/image|.*\\.png$).*)',
     ],
 }

@@ -12,7 +12,10 @@ export const metadata = {
   title: "RentNest - Find & List Rental Properties with Ease",
   description: "Modern rental property marketplace connecting tenants, landlords, and property managers.",
   icons: {
-    icon: "/logo-bg-white.jpg",
+    icon: [
+      { url: "/logo-bg-white.jpg", type: "image/jpeg" },
+      { url: "/favicon.ico" }
+    ],
     shortcut: "/logo-bg-white.jpg",
     apple: "/logo-bg-white.jpg",
   },

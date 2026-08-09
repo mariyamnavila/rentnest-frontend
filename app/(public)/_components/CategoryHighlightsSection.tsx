@@ -39,14 +39,6 @@ const categories = [
     icon: Hotel,
     desc: 'Private gated villas with swimming pools & ocean views.',
   },
-  {
-    id: 'commercial-spaces',
-    name: 'Commercial Offices',
-    count: '4 Listings',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80',
-    icon: Warehouse,
-    desc: 'Turnkey retail & office spaces in central business hubs.',
-  },
 ];
 
 export function CategoryHighlightsSection() {
@@ -76,7 +68,7 @@ export function CategoryHighlightsSection() {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((cat, index) => {
             const Icon = cat.icon;
             return (
