@@ -13,7 +13,7 @@ export function FeaturedPropertiesSection({ properties }: FeaturedPropertiesSect
 
   return (
     <section className="py-16 bg-white dark:bg-[#1a1d24] font-sans">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4">
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">

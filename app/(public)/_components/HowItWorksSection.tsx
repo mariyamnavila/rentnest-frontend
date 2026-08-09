@@ -5,7 +5,7 @@ import { Search, FileText, CheckCircle, Upload, UserCheck, CreditCard } from 'lu
 export function HowItWorksSection() {
   return (
     <section className="py-16 bg-[#f7f7f7] dark:bg-[#14171d] border-t border-[#e4e4e4] dark:border-[#2e3440] font-sans">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4">
         
         {/* Section Header */}
         <div className="text-center space-y-3 mb-12">

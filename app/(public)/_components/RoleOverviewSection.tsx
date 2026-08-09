@@ -10,7 +10,7 @@ export function RoleOverviewSection() {
 
   return (
     <section className="py-16 bg-[#FBEFE9] dark:bg-[#14171d] border-y border-[#e4e4e4] dark:border-[#2e3440] font-sans">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4">
         
         {/* Section Header */}
         <div className="text-center space-y-3 mb-10">
