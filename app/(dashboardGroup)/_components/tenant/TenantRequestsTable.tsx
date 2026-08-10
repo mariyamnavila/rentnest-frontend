@@ -130,7 +130,7 @@ export function TenantRequestsTable({ rentals, meta }: TenantRequestsTableProps)
               <thead>
                 <tr className="bg-[#f7f7f7] dark:bg-[#232733] border-b border-[#e4e4e4] dark:border-[#2e3440] text-gray-500 dark:text-slate-400 uppercase tracking-wider font-extrabold text-[10px]">
                   <th className="py-4 px-5">Property</th>
-                  <th className="py-4 px-5">Lease Dates</th>
+                  <th className="py-4 px-5 min-w-50 whitespace-nowrap">Lease Dates</th>
                   <th className="py-4 px-5">Monthly Rate</th>
                   <th className="py-4 px-5">Status</th>
                   <th className="py-4 px-5 text-right">Actions</th>
@@ -168,7 +168,7 @@ export function TenantRequestsTable({ rentals, meta }: TenantRequestsTableProps)
                           <div className="min-w-0 space-y-0.5">
                             <Link
                               href={`/tenant-dashboard/requests/${rental.id}`}
-                              className="font-extrabold text-[#222222] dark:text-white truncate block hover:text-[#CFA190] transition-colors text-sm"
+                              className="font-extrabold text-[#222222] dark:text-white truncate block hover:text-[#CFA190] transition-colors text-sm max-w-50"
                             >
                               {rental.property?.title || 'Unknown Property'}
                             </Link>
@@ -181,7 +181,7 @@ export function TenantRequestsTable({ rentals, meta }: TenantRequestsTableProps)
                       </td>
 
                       {/* Lease Dates */}
-                      <td className="py-4 px-5 min-w-50">
+                      <td className="py-4 px-5 min-w-50 whitespace-nowrap">
                         <div className="space-y-0.5">
                           <span className="flex items-center gap-1 font-bold text-[#222222] dark:text-white text-xs">
                             <CalendarDays className="size-3.5 text-[#CFA190] shrink-0" />
@@ -268,7 +268,7 @@ export function TenantRequestsTable({ rentals, meta }: TenantRequestsTableProps)
                       <Image unoptimized src={displayImage} alt={rental.property?.title || 'Property'} fill className="object-cover" />
                     </div>
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <Link href={`/tenant-dashboard/requests/${rental.id}`} className="text-xs font-black text-[#222222] dark:text-white truncate block">
+                      <Link href={`/tenant-dashboard/requests/${rental.id}`} className="text-xs font-black text-[#222222] dark:text-white truncate block max-w-50">
                         {rental.property?.title || 'Unknown Property'}
                       </Link>
                       <p className="text-[11px] font-extrabold text-[#CFA190]">
@@ -340,8 +340,8 @@ export function TenantRequestsTable({ rentals, meta }: TenantRequestsTableProps)
                   variant={page === currentPage ? 'default' : 'outline'}
                   onClick={() => goToPage(page)}
                   className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${page === currentPage
-                      ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
-                      : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
+                    ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
+                    : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
                     }`}
                 >
                   {page}

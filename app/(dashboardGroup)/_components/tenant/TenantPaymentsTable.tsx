@@ -141,7 +141,7 @@ export function TenantPaymentsTable({ payments, meta }: TenantPaymentsTableProps
                     >
                       <td className="py-4 px-6">
                         <div className="min-w-0">
-                          <p className="font-extrabold text-[#222222] dark:text-white truncate text-sm">
+                          <p className="font-extrabold text-[#222222] dark:text-white truncate text-sm max-w-50">
                             {payment.rentalRequest?.property?.title || 'Unknown Property'}
                           </p>
                           <p className="text-[11px] text-gray-400 truncate mt-0.5">
@@ -194,7 +194,7 @@ export function TenantPaymentsTable({ payments, meta }: TenantPaymentsTableProps
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1 space-y-0.5">
-                    <p className="text-xs font-black text-[#222222] dark:text-white truncate">
+                    <p className="text-xs font-black text-[#222222] dark:text-white truncate max-w-50">
                       {payment.rentalRequest?.property?.title || 'Unknown Property'}
                     </p>
                     <p className="text-[11px] text-gray-400 truncate">

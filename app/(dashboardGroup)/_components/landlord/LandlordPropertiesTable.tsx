@@ -180,7 +180,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
                           <div className="min-w-0 space-y-0.5">
                             <Link
                               href={`/properties/${property.id}`}
-                              className="font-extrabold text-[#222222] dark:text-white truncate block hover:text-[#CFA190] transition-colors text-sm"
+                              className="font-extrabold text-[#222222] dark:text-white truncate block hover:text-[#CFA190] transition-colors text-sm max-w-50"
                             >
                               {property.title}
                             </Link>
@@ -239,7 +239,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
                       <Image unoptimized src={displayImage} alt={property.title} fill className="object-cover" />
                     </div>
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <Link href={`/properties/${property.id}`} className="text-xs font-black text-[#222222] dark:text-white truncate block hover:text-[#CFA190]">
+                      <Link href={`/properties/${property.id}`} className="text-xs font-black text-[#222222] dark:text-white truncate block hover:text-[#CFA190] max-w-50">
                         {property.title}
                       </Link>
                       <p className="text-[11px] text-gray-400 truncate flex items-center gap-1">

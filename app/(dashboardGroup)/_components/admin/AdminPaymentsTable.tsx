@@ -128,7 +128,7 @@ export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) 
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Amount</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Method</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Transaction ID</th>
-                  <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Date</th>
+                  <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider min-w-35 whitespace-nowrap">Date</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
@@ -164,7 +164,7 @@ export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) 
                         {payment.transactionId || '—'}
                       </span>
                     </td>
-                    <td className="py-3.5 px-5">
+                    <td className="py-3.5 px-5 min-w-35 whitespace-nowrap">
                       <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">
                         {payment.paidAt ? new Date(payment.paidAt).toLocaleDateString() : new Date(payment.createdAt || '').toLocaleDateString()}
                       </span>
@@ -200,8 +200,8 @@ export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) 
                   variant={page === currentPage ? 'default' : 'outline'}
                   onClick={() => goToPage(page)}
                   className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${page === currentPage
-                      ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
-                      : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
+                    ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
+                    : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
                     }`}
                 >
                   {page}

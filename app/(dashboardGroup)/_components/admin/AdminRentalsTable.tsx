@@ -129,7 +129,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
                 <tr className="bg-[#f7f7f7] dark:bg-[#232733] border-b border-[#e4e4e4] dark:border-[#2e3440]">
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Property</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Tenant</th>
-                  <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Lease Dates</th>
+                  <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider min-w-45 whitespace-nowrap">Lease Dates</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Payments</th>
                   <th className="py-3.5 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Status</th>
                 </tr>
@@ -163,7 +163,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
                           <p className="text-[10px] text-gray-400 truncate">{rental.tenant?.email}</p>
                         </div>
                       </td>
-                      <td className="py-3.5 px-5">
+                      <td className="py-3.5 px-5 min-w-45 whitespace-nowrap">
                         <span className="flex items-center gap-1 text-xs text-gray-500 dark:text-slate-400 font-medium">
                           <CalendarDays className="size-3.5 text-[#CFA190]" />
                           {new Date(rental.startDate).toLocaleDateString()} – {new Date(rental.endDate).toLocaleDateString()}
@@ -208,8 +208,8 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
                   variant={page === currentPage ? 'default' : 'outline'}
                   onClick={() => goToPage(page)}
                   className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${page === currentPage
-                      ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
-                      : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
+                    ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
+                    : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
                     }`}
                 >
                   {page}

@@ -64,7 +64,7 @@ export function UserTable({ users, meta }: UserTableProps) {
               <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">User</th>
               <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Role</th>
               <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Status</th>
-              <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Joined</th>
+              <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider min-w-32.5 whitespace-nowrap">Joined</th>
               <th className="py-3 px-5 text-[11px] font-extrabold text-gray-400 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
             </tr>
           </thead>
@@ -89,24 +89,22 @@ export function UserTable({ users, meta }: UserTableProps) {
                   </div>
                 </td>
                 <td className="py-3.5 px-5">
-                  <span className={`inline-block px-2 py-0.5 rounded-lg text-[10px] font-bold ${
-                    user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400'
-                    : user.role === 'LANDLORD' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400'
-                    : 'bg-[#fff5f5] text-[#CFA190] dark:bg-[#232733]'
-                  }`}>
+                  <span className={`inline-block px-2 py-0.5 rounded-lg text-[10px] font-bold ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400'
+                      : user.role === 'LANDLORD' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400'
+                        : 'bg-[#fff5f5] text-[#CFA190] dark:bg-[#232733]'
+                    }`}>
                     {user.role}
                   </span>
                 </td>
                 <td className="py-3.5 px-5">
-                  <span className={`inline-block px-2 py-0.5 rounded-lg text-[10px] font-bold ${
-                    user.status === 'BANNED'
+                  <span className={`inline-block px-2 py-0.5 rounded-lg text-[10px] font-bold ${user.status === 'BANNED'
                       ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400'
                       : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                  }`}>
+                    }`}>
                     {user.status}
                   </span>
                 </td>
-                <td className="py-3.5 px-5 text-xs text-gray-500 dark:text-slate-400">
+                <td className="py-3.5 px-5 text-xs text-gray-500 dark:text-slate-400 min-w-32.5 whitespace-nowrap">
                   {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
                 </td>
                 <td className="py-3.5 px-5 text-right">
@@ -149,11 +147,10 @@ export function UserTable({ users, meta }: UserTableProps) {
                 size="sm"
                 variant={p === currentPage ? 'default' : 'outline'}
                 onClick={() => goToPage(p)}
-                className={`h-8 w-8 rounded-xl text-xs font-bold p-0 cursor-pointer ${
-                  p === currentPage
+                className={`h-8 w-8 rounded-xl text-xs font-bold p-0 cursor-pointer ${p === currentPage
                     ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
                     : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
-                }`}
+                  }`}
               >
                 {p}
               </Button>
