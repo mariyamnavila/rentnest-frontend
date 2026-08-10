@@ -115,7 +115,7 @@ export function DashboardSidebar() {
             </button>
           </div>
 
-          <div className="px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between gap-2">
+          <div className="lg:hidden px-3 py-2 rounded-2xl bg-[#fff5f5] dark:bg-[#232733] border border-[#CFA190]/20 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <UserCheck className="size-4 text-[#CFA190] shrink-0" />
               <span className="text-xs font-black uppercase text-[#222222] dark:text-white truncate">
@@ -155,7 +155,7 @@ export function DashboardSidebar() {
         </div>
 
         {/* User Profile Strip with Clickable Role-Based Profile Link & Avatar Image Fallback */}
-        <div className="p-4 border-t border-[#e4e4e4] dark:border-[#2e3440] space-y-3">
+        <div className="lg:hidden p-4 border-t border-[#e4e4e4] dark:border-[#2e3440] space-y-3">
           <Link
             href={profileHref}
             onClick={() => setIsOpen(false)}
