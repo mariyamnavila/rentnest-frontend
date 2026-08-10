@@ -59,7 +59,7 @@ export function SocialAndDemoButtons({
         toast.error(data.message || 'Demo login failed.');
       }
     } catch (err) {
-      console.error('Demo login error:', err);
+      // console.error('Demo login error:', err);
       toast.error('Demo login failed. Please try normal login.');
     } finally {
       setLoading(null);
@@ -82,7 +82,7 @@ export function SocialAndDemoButtons({
         profileImage = user.photoURL || '';
         providerId = user.uid;
       } catch (popupError: unknown) {
-        console.warn('Firebase popup error, using fallback Google login:', popupError);
+        // console.warn('Firebase popup error, using fallback Google login:', popupError);
         email = 'social.google@rentnest.com';
         name = 'Google RentNest User';
         profileImage =
@@ -119,7 +119,7 @@ export function SocialAndDemoButtons({
         toast.error(res.message || 'Google login failed.');
       }
     } catch (error) {
-      console.error('Google login error:', error);
+      // console.error('Google login error:', error);
       toast.error('Google login error. Please try again.');
     } finally {
       setLoading(null);

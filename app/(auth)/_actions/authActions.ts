@@ -148,7 +148,7 @@ export async function socialLoginAction(
       role: decodedToken.role,
     };
   } catch (error) {
-    console.error('Social login action error:', error);
+    // console.error('Social login action error:', error);
     return {
       success: false,
       message: 'Server error during social login.',

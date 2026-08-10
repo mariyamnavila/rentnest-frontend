@@ -13,7 +13,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Unhandled System Error:', error);
+    // console.error('Unhandled System Error:', error);
   }, [error]);
 
   return (

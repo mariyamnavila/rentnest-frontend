@@ -80,7 +80,7 @@ export async function sendContactEmailAction(
       emailSentTo: targetEmail,
     };
   } catch (error) {
-    console.error('Contact email error:', error);
+    // console.error('Contact email error:', error);
     return {
       success: false,
       message: 'Error sending email. Please try again or check SMTP configuration.',

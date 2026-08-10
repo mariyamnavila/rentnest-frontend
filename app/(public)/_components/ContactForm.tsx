@@ -41,7 +41,7 @@ export function ContactForm() {
         toast.error(result.message || 'Failed to send message.');
       }
     } catch (error) {
-      console.error('Contact form submit error:', error);
+      // console.error('Contact form submit error:', error);
       toast.error('Error sending message. Please try again.');
     } finally {
       setLoading(false);

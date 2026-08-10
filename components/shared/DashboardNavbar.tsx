@@ -41,7 +41,7 @@ export function DashboardNavbar() {
       router.push("/login");
       router.refresh();
     } catch (error) {
-      console.error("Logout error:", error);
+      // console.error("Logout error:", error);
       toast.error("Logout failed. Please try again.");
     }
   };
