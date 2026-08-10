@@ -67,7 +67,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
   return (
     <div className="space-y-4 font-sans">
       {/* Search & Filter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 mb-5">
         {/* Search Input */}
         <div className="relative sm:col-span-1 lg:col-span-4">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
@@ -88,7 +88,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
             value={categoryFilter}
             onValueChange={(val) => updateFilters('categoryId', val)}
           >
-            <SelectTrigger className="w-full !h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
+            <SelectTrigger className="w-full h-11! rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-[#e4e4e4] dark:border-[#2e3440] bg-white dark:bg-[#1a1d24]">
@@ -108,7 +108,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
             value={availabilityFilter}
             onValueChange={(val) => updateFilters('isAvailable', val)}
           >
-            <SelectTrigger className="w-full !h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
+            <SelectTrigger className="w-full h-11! rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
               <SelectValue placeholder="Availability" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-[#e4e4e4] dark:border-[#2e3440] bg-white dark:bg-[#1a1d24]">
@@ -125,7 +125,7 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
             value={sortBy}
             onValueChange={(val) => updateFilters('sortBy', val)}
           >
-            <SelectTrigger className="w-full !h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
+            <SelectTrigger className="w-full h-11! rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
               <span className="flex items-center gap-1.5">
                 <ArrowUpDown className="size-3.5 text-[#CFA190]" />
                 <SelectValue placeholder="Sort By" />
@@ -205,8 +205,8 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
 
                       <td className="py-4 px-6">
                         <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-bold ${property.isAvailable
-                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 border border-emerald-200 dark:border-emerald-800'
-                            : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 border border-rose-200 dark:border-rose-800'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 border border-emerald-200 dark:border-emerald-800'
+                          : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 border border-rose-200 dark:border-rose-800'
                           }`}>
                           {property.isAvailable ? 'Available' : 'Unavailable'}
                         </span>
@@ -254,8 +254,8 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
 
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-slate-800">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${property.isAvailable
-                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600'
-                        : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600'
+                      : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600'
                       }`}>
                       {property.isAvailable ? 'Available' : 'Unavailable'}
                     </span>
@@ -287,11 +287,10 @@ export function LandlordPropertiesTable({ properties, meta, categories }: Landlo
                   size="sm"
                   variant={page === currentPage ? 'default' : 'outline'}
                   onClick={() => goToPage(page)}
-                  className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${
-                    page === currentPage
+                  className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${page === currentPage
                       ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
                       : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
-                  }`}
+                    }`}
                 >
                   {page}
                 </Button>

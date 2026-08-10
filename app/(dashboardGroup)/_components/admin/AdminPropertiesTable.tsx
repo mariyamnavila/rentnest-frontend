@@ -65,7 +65,7 @@ export function AdminPropertiesTable({ properties, meta, categories }: AdminProp
   return (
     <div className="space-y-4">
       {/* Search & Filter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 mb-5">
         {/* Search Input */}
         <div className="relative sm:col-span-1 lg:col-span-4">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-gray-400" />

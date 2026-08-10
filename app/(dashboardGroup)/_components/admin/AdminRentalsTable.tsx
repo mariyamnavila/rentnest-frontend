@@ -63,7 +63,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
   return (
     <div className="space-y-4">
       {/* Search & Filter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 mb-5">
         {/* Search Input */}
         <div className="relative sm:col-span-1 lg:col-span-6">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
@@ -84,7 +84,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
             value={statusFilter}
             onValueChange={(val) => updateFilters('status', val)}
           >
-            <SelectTrigger className="w-full !h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
+            <SelectTrigger className="w-full h-11! rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-[#e4e4e4] dark:border-[#2e3440] bg-white dark:bg-[#1a1d24]">
@@ -104,7 +104,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
             value={sortBy}
             onValueChange={(val) => updateFilters('sortBy', val)}
           >
-            <SelectTrigger className="w-full !h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
+            <SelectTrigger className="w-full h-11! rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-xs font-bold text-[#222222] dark:text-slate-100">
               <span className="flex items-center gap-1.5">
                 <ArrowUpDown className="size-3.5 text-[#CFA190]" />
                 <SelectValue placeholder="Sort By" />
@@ -137,7 +137,7 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
               <tbody className="divide-y divide-[#e4e4e4] dark:divide-[#2e3440]">
                 {rentals.map((rental) => {
                   const img = rental.property?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&q=80';
-                  const isCompleted = rental.status === 'COMPLETED';
+                  // const isCompleted = rental.status === 'COMPLETED';
 
                   // Calculate total payments received
                   const totalPaid = rental.payments
@@ -207,11 +207,10 @@ export function AdminRentalsTable({ rentals, meta }: AdminRentalsTableProps) {
                   size="sm"
                   variant={page === currentPage ? 'default' : 'outline'}
                   onClick={() => goToPage(page)}
-                  className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${
-                    page === currentPage
+                  className={`h-9 w-9 rounded-xl text-xs font-bold p-0 cursor-pointer ${page === currentPage
                       ? 'bg-[#CFA190] hover:bg-[#C08E82] text-white border-0'
                       : 'border-[#e4e4e4] dark:border-[#2e3440] text-gray-500'
-                  }`}
+                    }`}
                 >
                   {page}
                 </Button>

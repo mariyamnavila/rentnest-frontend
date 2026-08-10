@@ -25,7 +25,7 @@ import type { IProperty } from '@/lib/types';
 
 // Import Swiper React components and modules
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -279,7 +279,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
             {reviews.length > 0 ? (
               <div className="relative">
                 <Swiper
-                  modules={[Autoplay, Pagination, Navigation]}
+                  modules={[Autoplay, Pagination]}
                   spaceBetween={20}
                   slidesPerView={1}
                   breakpoints={{
@@ -292,7 +292,6 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
                     disableOnInteraction: false,
                   }}
                   pagination={{ clickable: true }}
-                  navigation
                   className="w-full pb-10 rounded-2xl cursor-grab active:cursor-grabbing"
                 >
                   {reviews.map((review) => (
