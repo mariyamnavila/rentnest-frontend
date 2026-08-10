@@ -29,6 +29,8 @@ export function SocialAndDemoButtons({
     setLoading(`demo-${role}`);
     if (onAutoFill) {
       onAutoFill(email, pass);
+      setLoading(null);
+      return;
     }
 
     try {

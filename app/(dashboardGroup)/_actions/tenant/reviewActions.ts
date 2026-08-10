@@ -71,16 +71,44 @@ export async function submitReview(
   }
 }
 
-export async function getMyReviews(): Promise<{ success: boolean; data: IMyReview[] }> {
+export type ReviewsMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type ReviewsResult = {
+  success: boolean;
+  data: IMyReview[];
+  meta: ReviewsMeta | null;
+};
+
+export async function getMyReviews(
+  search?: string,
+  page?: number,
+  limit?: number,
+  rating?: number,
+  sortBy?: string
+): Promise<ReviewsResult> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
   if (!accessToken) {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/reviews`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (rating) params.set('rating', String(rating));
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/reviews${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: { Cookie: `accessToken=${accessToken}` },
       cache: 'no-store',
     });
@@ -88,11 +116,11 @@ export async function getMyReviews(): Promise<{ success: boolean; data: IMyRevie
     const result = await res.json();
 
     if (!res.ok || !result.success) {
-      return { success: false, data: [] };
+      return { success: false, data: [], meta: null };
     }
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }
