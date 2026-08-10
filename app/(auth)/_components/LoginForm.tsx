@@ -167,8 +167,9 @@ export function LoginForm() {
       <SocialAndDemoButtons
         mode="login"
         onAutoFill={(email, password) => {
-          setValue('email', email);
-          setValue('password', password);
+          setValue('email', email, { shouldValidate: true });
+          setValue('password', password, { shouldValidate: true });
+          onSubmit({ email, password });
         }}
       />
 

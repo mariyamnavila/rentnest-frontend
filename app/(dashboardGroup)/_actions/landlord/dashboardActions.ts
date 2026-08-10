@@ -34,23 +34,47 @@ export async function getLandlordStats(): Promise<{ success: boolean; data: Land
   }
 }
 
-export async function getLandlordProperties(): Promise<{ success: boolean; data: IProperty[] }> {
+export type LandlordMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export async function getLandlordProperties(
+  search?: string,
+  page?: number,
+  limit?: number,
+  categoryId?: string,
+  isAvailable?: string,
+  sortBy?: string
+): Promise<{ success: boolean; data: IProperty[]; meta: LandlordMeta | null }> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  if (!accessToken) return { success: false, data: [] };
+  if (!accessToken) return { success: false, data: [], meta: null };
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord/properties`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (categoryId) params.set('categoryId', categoryId);
+    if (isAvailable) params.set('isAvailable', isAvailable);
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/landlord/properties${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: { Cookie: `accessToken=${accessToken}` },
       cache: 'no-store',
     });
 
     const result = await res.json();
-    if (!res.ok || !result.success) return { success: false, data: [] };
+    if (!res.ok || !result.success) return { success: false, data: [], meta: null };
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }

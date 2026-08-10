@@ -3,9 +3,17 @@
 import { cookies } from 'next/headers';
 import { IRentalRequest, IPayment } from '@/lib/types';
 
+export type TenantMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
 export type TenantRentalsResponse = {
   success: boolean;
   data: IRentalRequest[];
+  meta: TenantMeta | null;
 };
 
 export type TenantPaymentsResponse = {
@@ -28,16 +36,31 @@ export type RentalStatsResponse = {
   data: RentalStats;
 };
 
-export async function getMyRentals(): Promise<TenantRentalsResponse> {
+export async function getMyRentals(
+  search?: string,
+  page?: number,
+  limit?: number,
+  status?: string,
+  sortBy?: string
+): Promise<TenantRentalsResponse> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
   if (!accessToken) {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/rentals`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (status) params.set('status', status);
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/rentals${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: {
         Cookie: `accessToken=${accessToken}`
       },
@@ -47,12 +70,12 @@ export async function getMyRentals(): Promise<TenantRentalsResponse> {
     const result = await res.json();
 
     if (!res.ok || !result.success) {
-      return { success: false, data: [] };
+      return { success: false, data: [], meta: null };
     }
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }
 

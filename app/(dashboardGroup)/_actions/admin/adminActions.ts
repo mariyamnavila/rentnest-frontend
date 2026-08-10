@@ -166,76 +166,82 @@ export async function getAllRentals(): Promise<{ success: boolean; data: { total
   }
 }
 
-export type AdminProperty = {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  price: number;
-  amenities: string[];
-  images: string[];
-  isAvailable: boolean;
-  landlordId: string;
-  categoryId: string;
-  category?: { id: string; name: string };
-  landlord?: { id: string; name: string; email: string };
-  reviews?: { id: string; rating: number }[];
-  createdAt?: string;
-};
+import type { IProperty, IRentalRequest } from '@/lib/types';
 
-export type AdminRental = {
-  id: string;
-  propertyId: string;
-  tenantId: string;
-  status: string;
-  startDate: string;
-  endDate: string;
-  message?: string | null;
-  createdAt?: string;
-  tenant?: { id: string; name: string; email: string };
-  property?: { id: string; title: string; price: number; location: string; images: string[]; landlord?: { name: string } };
-  payments?: { id: string; amount: number; status: string }[];
-};
+export type AdminProperty = IProperty;
+export type AdminRental = IRentalRequest;
 
-export async function getAdminProperties(): Promise<{ success: boolean; data: AdminProperty[] }> {
+export async function getAdminProperties(
+  search?: string,
+  page?: number,
+  limit?: number,
+  categoryId?: string,
+  isAvailable?: string,
+  sortBy?: string
+): Promise<{ success: boolean; data: AdminProperty[]; meta: AdminUserMeta | null }> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  if (!accessToken) return { success: false, data: [] };
+  if (!accessToken) return { success: false, data: [], meta: null };
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/properties`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (categoryId) params.set('categoryId', categoryId);
+    if (isAvailable) params.set('isAvailable', isAvailable);
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/admin/properties${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: { Cookie: `accessToken=${accessToken}` },
       cache: 'no-store',
     });
 
     const result = await res.json();
-    if (!res.ok || !result.success) return { success: false, data: [] };
+    if (!res.ok || !result.success) return { success: false, data: [], meta: null };
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }
 
-export async function getAdminRentals(): Promise<{ success: boolean; data: AdminRental[] }> {
+export async function getAdminRentals(
+  search?: string,
+  page?: number,
+  limit?: number,
+  status?: string,
+  sortBy?: string
+): Promise<{ success: boolean; data: AdminRental[]; meta: AdminUserMeta | null }> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  if (!accessToken) return { success: false, data: [] };
+  if (!accessToken) return { success: false, data: [], meta: null };
 
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/rentals`, {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (status) params.set('status', status);
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/admin/rentals${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
       headers: { Cookie: `accessToken=${accessToken}` },
       cache: 'no-store',
     });
 
     const result = await res.json();
-    if (!res.ok || !result.success) return { success: false, data: [] };
+    if (!res.ok || !result.success) return { success: false, data: [], meta: null };
 
-    return { success: true, data: result.data || [] };
+    return { success: true, data: result.data || [], meta: result.meta || null };
   } catch {
-    return { success: false, data: [] };
+    return { success: false, data: [], meta: null };
   }
 }
 
