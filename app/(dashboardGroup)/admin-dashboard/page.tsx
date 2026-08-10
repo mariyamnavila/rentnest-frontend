@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
 
       {/* Recent Users Table */}
       <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
-        <CardHeader className="p-6 pb-4">
+        <CardHeader className="p-6 py-0">
           <div>
             <CardTitle className="text-base sm:text-lg font-black uppercase tracking-wide text-[#222222] dark:text-white">
               Recent Users
@@ -87,7 +87,7 @@ export default async function AdminDashboardPage() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="p-6 pt-0">
+        <CardContent className="p-6 pt-1 pb-4">
           <UserTable users={users} meta={meta} />
         </CardContent>
       </Card>

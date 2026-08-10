@@ -25,8 +25,8 @@ export default async function AdminCategoriesPage() {
       </div>
 
       {/* Category Manager */}
-      <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
-        <CardHeader className="p-6 pb-4">
+      <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs pb-0">
+        <CardHeader className="p-6 py-0">
           <CardTitle className="text-base font-black uppercase tracking-wide text-[#222222] dark:text-white">
             Property Categories
           </CardTitle>

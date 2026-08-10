@@ -51,7 +51,7 @@ export default async function AdminPropertiesPage({ searchParams }: PageProps) {
 
       {/* Properties Table Card */}
       <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs pb-1">
-        <CardHeader className="p-6 pt-6 pb-0">
+        <CardHeader className="p-6 py-0">
           <CardTitle className="text-base font-black uppercase tracking-wide text-[#222222] dark:text-white">
             Property Listings
           </CardTitle>
@@ -59,7 +59,7 @@ export default async function AdminPropertiesPage({ searchParams }: PageProps) {
             All properties listed on the platform
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-6 pt-4">
+        <CardContent className="p-6 pt-1 pb-4">
           <AdminPropertiesTable properties={properties} meta={meta} categories={categories} />
         </CardContent>
       </Card>

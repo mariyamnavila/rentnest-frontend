@@ -245,6 +245,32 @@ export async function getAdminRentals(
   }
 }
 
+export type AdminPayment = {
+  id: string;
+  rentalRequestId: string;
+  tenantId: string;
+  amount: number;
+  method: string;
+  status: string;
+  transactionId?: string | null;
+  paidAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  tenant?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  rentalRequest?: {
+    id: string;
+    property?: {
+      id: string;
+      title: string;
+      location: string;
+    };
+  };
+};
+
 export type AdminCategory = {
   id: string;
   name: string;
@@ -316,5 +342,41 @@ export async function deleteCategory(id: string): Promise<{ success: boolean; me
     return { success: true, message: 'Category deleted' };
   } catch {
     return { success: false, message: 'An error occurred' };
+  }
+}
+
+export async function getAdminPayments(
+  search?: string,
+  page?: number,
+  limit?: number,
+  status?: string,
+  sortBy?: string
+): Promise<{ success: boolean; data: AdminPayment[]; meta: AdminUserMeta | null }> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  if (!accessToken) return { success: false, data: [], meta: null };
+
+  try {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+    if (status) params.set('status', status);
+    if (sortBy) params.set('sortBy', sortBy);
+
+    const url = `${process.env.BACKEND_API_URL}/api/payments${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
+      headers: { Cookie: `accessToken=${accessToken}` },
+      cache: 'no-store',
+    });
+
+    const result = await res.json();
+    if (!res.ok || !result.success) return { success: false, data: [], meta: null };
+
+    return { success: true, data: result.data || [], meta: result.meta || null };
+  } catch {
+    return { success: false, data: [], meta: null };
   }
 }

@@ -1,5 +1,5 @@
 import { ISidebarItem } from '@/lib/types';
-import { LayoutDashboard, Users, Building2, ClipboardList, Layers } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, ClipboardList, Layers, CreditCard } from 'lucide-react';
 
 export const ADMIN_SIDEBAR_ITEMS: ISidebarItem[] = [
   {
@@ -26,5 +26,10 @@ export const ADMIN_SIDEBAR_ITEMS: ISidebarItem[] = [
     label: 'Categories',
     href: '/admin-dashboard/categories',
     icon: Layers,
+  },
+  {
+    label: 'Payments',
+    href: '/admin-dashboard/payments',
+    icon: CreditCard,
   },
 ];

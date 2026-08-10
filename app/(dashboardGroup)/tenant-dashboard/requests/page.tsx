@@ -57,7 +57,7 @@ export default async function MyRequestsPage({ searchParams }: PageProps) {
 
       {/* Main Content Card */}
       <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-sm overflow-hidden">
-        <CardHeader className="p-6 pb-4">
+        <CardHeader className="p-6 py-0">
           <div>
             <CardTitle className="text-lg font-black uppercase tracking-wide text-[#222222] dark:text-white">
               All Submitted Requests
@@ -68,7 +68,7 @@ export default async function MyRequestsPage({ searchParams }: PageProps) {
           </div>
         </CardHeader>
 
-        <CardContent className="p-6 pt-2">
+        <CardContent className="p-6 pt-1 pb-0">
           <TenantRequestsTable rentals={rentals} meta={meta} />
         </CardContent>
       </Card>
