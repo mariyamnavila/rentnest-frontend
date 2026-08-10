@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { DashboardPieChart } from '../_components/shared/DashboardPieChart';
+import { DashboardBarChart } from '../_components/shared/DashboardBarChart';
 import {
   Building2,
   FileText,
@@ -53,7 +55,7 @@ export default async function LandlordDashboardPage() {
 
       {/* Stats Grid */}
       {stats && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {statCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -77,6 +79,37 @@ export default async function LandlordDashboardPage() {
               </Card>
             );
           })}
+        </div>
+      )}
+
+      {/* Charts Row */}
+      {stats && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
+            <CardContent className="p-4 py-3">
+              <DashboardPieChart
+                title="Request Status"
+                data={[
+                  { name: 'Pending', value: stats.pending },
+                  { name: 'Approved', value: stats.approved },
+                  { name: 'Active', value: stats.active },
+                  { name: 'Completed', value: stats.completed },
+                ]}
+              />
+            </CardContent>
+          </Card>
+          <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
+            <CardContent className="p-4 py-3">
+              <DashboardBarChart
+                title="Properties Overview"
+                data={[
+                  { name: 'Total', value: stats.totalProperties },
+                  { name: 'Requests', value: stats.totalRequests },
+                  { name: 'Active', value: stats.active },
+                ]}
+              />
+            </CardContent>
+          </Card>
         </div>
       )}
 

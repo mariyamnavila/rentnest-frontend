@@ -1,6 +1,8 @@
 import { getAdminStats } from '../_actions/admin/adminActions';
 import { UserTable } from '../_components/admin/UserTable';
 import { getAllUsers } from '../_actions/admin/adminActions';
+import { DashboardPieChart } from '../_components/shared/DashboardPieChart';
+import { DashboardBarChart } from '../_components/shared/DashboardBarChart';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Users, Building2, ClipboardList, UserCheck, UserX, Shield, DollarSign } from 'lucide-react';
 
@@ -49,7 +51,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
@@ -73,6 +75,33 @@ export default async function AdminDashboardPage() {
             </Card>
           );
         })}
+      </div>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
+          <CardContent className="p-4 py-3">
+            <DashboardPieChart
+              title="User Status"
+              data={[
+                { name: 'Active', value: stats?.activeUsers || 0 },
+                { name: 'Banned', value: stats?.bannedUsers || 0 },
+              ]}
+            />
+          </CardContent>
+        </Card>
+        <Card className="bg-white dark:bg-[#1a1d24] rounded-3xl border border-[#e4e4e4] dark:border-[#2e3440] shadow-xs">
+          <CardContent className="p-4 py-3">
+            <DashboardBarChart
+              title="Platform Overview"
+              data={[
+                { name: 'Users', value: stats?.totalUsers || 0 },
+                { name: 'Properties', value: stats?.totalProperties || 0 },
+                { name: 'Leases', value: stats?.activeRentals || 0 },
+              ]}
+            />
+          </CardContent>
+        </Card>
       </div>
 
       {/* Recent Users Table */}
