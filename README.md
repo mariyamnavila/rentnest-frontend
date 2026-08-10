@@ -3,9 +3,9 @@
 ## Overview
 RentNest is a full-stack rental property marketplace that connects tenants with landlords. Users can browse properties, submit rental requests, make payments, and leave reviews. The platform includes role-based dashboards for Tenants, Landlords, and Admins.
 
-<!-- ## Screenshot -->
-<!-- ![RentNest Screenshot](screenshot.png) -->
-<!-- > *Screenshot coming soon* -->
+## Screenshot
+![RentNest Screenshot](/public/RentNest.png)
+
 ## Tech Stack
 - **Framework:** Next.js 16, React 19
 - **Language:** TypeScript
