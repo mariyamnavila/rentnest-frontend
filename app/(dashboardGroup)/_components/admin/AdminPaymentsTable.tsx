@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, ChevronLeft, ChevronRight, DollarSign, ArrowUpDown, CreditCard } from 'lucide-react';
+import { useRef } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { Search, ChevronLeft, ChevronRight, DollarSign, ArrowUpDown, CreditCard, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,9 +16,11 @@ type AdminPaymentsTableProps = {
 
 export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const debouncedReference = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const statusFilter = searchParams.get('status') || 'ALL';
   const sortBy = searchParams.get('sortBy') || 'newest';
 
@@ -33,15 +35,36 @@ export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) 
     router.push(`?${params.toString()}`);
   };
 
-  const handleSearch = (val: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (val.trim()) {
-      params.set('search', val.trim());
-    } else {
-      params.delete('search');
+  const handleChange = (value: string) => {
+    if (debouncedReference.current) {
+      clearTimeout(debouncedReference.current);
     }
-    params.set('page', '1');
-    router.push(`?${params.toString()}`);
+
+    debouncedReference.current = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value) {
+        params.set('search', value);
+      } else {
+        params.delete('search');
+      }
+
+      params.delete('page');
+
+      router.replace(`${pathname}?${params.toString()}`);
+    }, 500);
+  };
+
+  const handleClear = () => {
+    if (debouncedReference.current) {
+      clearTimeout(debouncedReference.current);
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('search');
+    params.delete('page');
+
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   const goToPage = (page: number) => {
@@ -66,14 +89,19 @@ export function AdminPaymentsTable({ payments, meta }: AdminPaymentsTableProps) 
         <div className="relative sm:col-span-1 lg:col-span-6">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
           <Input
+            defaultValue={searchParams.get('search') ?? ''}
+            onChange={(e) => handleChange(e.target.value)}
             placeholder="Search by tenant, property, or transaction ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSearch(search);
-            }}
-            className="pl-10 h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-sm font-medium placeholder:text-gray-400"
+            className="pl-10 pr-10 h-11 rounded-2xl border-[#e4e4e4] dark:border-[#2e3440] bg-[#f7f7f7] dark:bg-[#232733] text-sm font-medium placeholder:text-gray-400"
           />
+          {searchParams.get('search') && (
+            <button
+              onClick={handleClear}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-gray-100 dark:hover:bg-[#2e3440] transition-colors cursor-pointer"
+            >
+              <X className="size-3.5 text-gray-400" />
+            </button>
+          )}
         </div>
 
         {/* Status Filter */}

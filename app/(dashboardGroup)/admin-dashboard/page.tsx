@@ -11,10 +11,13 @@ export const metadata = {
   description: 'Manage users, properties, and rental requests',
 };
 
-export default async function AdminDashboardPage() {
+export default async function AdminDashboardPage({ searchParams }: { searchParams?: Promise<{ search?: string }> }) {
+  const params = await searchParams;
+  const search = params?.search;
+
   const [statsResult, usersResult] = await Promise.all([
     getAdminStats(),
-    getAllUsers(undefined, 1, 5),
+    getAllUsers(search, 1, 5),
   ]);
 
   const stats = statsResult.data;
